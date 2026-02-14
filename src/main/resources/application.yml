@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: wagle-server
+  datasource:
+    url: jdbc:mysql://localhost:3306/wagle?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root  # 도커 비밀번호 (root로 설정했음)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
