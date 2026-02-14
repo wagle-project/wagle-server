@@ -1,0 +1,50 @@
+package com.waglewagle.server.global.apiPayload;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.waglewagle.server.global.apiPayload.code.BaseErrorCode;
+import com.waglewagle.server.global.apiPayload.code.BaseSuccessCode;
+import com.waglewagle.server.global.apiPayload.dto.ListResponseDTO;
+import com.waglewagle.server.global.apiPayload.dto.PageResponseDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+
+@Getter
+@AllArgsConstructor
+@JsonPropertyOrder({"isSuccess", "code", "message", "result"})
+public class ApiResponse<T> {
+
+    @JsonProperty("isSuccess")
+    private final Boolean isSuccess;
+
+    @JsonProperty("code")
+    private final String code;
+
+    @JsonProperty("message")
+    private final String message;
+
+    @JsonProperty("result")
+    private T result;
+
+    // 1. 일반적인 성공 응답 (단건 데이터)
+    public static <T> ApiResponse<T> onSuccess(BaseSuccessCode code, T result) {
+        return new ApiResponse<>(true, code.getCode(), code.getMessage(), result);
+    }
+
+    // 2. 페이징 성공 응답 (Page 객체 처리)
+    public static <T> ApiResponse<PageResponseDTO<T>> onPageSuccess(BaseSuccessCode code, Page<T> page) {
+        return new ApiResponse<>(true, code.getCode(), code.getMessage(), new PageResponseDTO<>(page));
+    }
+
+    // 3. 리스트 성공 응답 (List 객체 처리)
+    public static <T> ApiResponse<ListResponseDTO<T>> onListSuccess(BaseSuccessCode code, List<T> list) {
+        return new ApiResponse<>(true, code.getCode(), code.getMessage(), new ListResponseDTO<>(list));
+    }
+
+    // 4. 실패 응답
+    public static <T> ApiResponse<T> onFailure(BaseErrorCode code, T result) {
+        return new ApiResponse<>(false, code.getCode(), code.getMessage(), result);
+    }}
