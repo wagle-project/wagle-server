@@ -3,7 +3,7 @@
 > **Real-time Festival Congestion Monitoring Service**<br>
 > 야외 축제장 실시간 혼잡도 및 위치 확인 서비스 '와글와글'의 백엔드 리포지토리입니다.
 
-![Java](https://img.shields.io/badge/Java-17-007396?style=flat-square&logo=java)
+![Java](https://img.shields.io/badge/Java-21-007396?style=flat-square&logo=java)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F?style=flat-square&logo=spring-boot)
 ![Redis](https://img.shields.io/badge/Redis-Geo-DC382D?style=flat-square&logo=redis)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql)
