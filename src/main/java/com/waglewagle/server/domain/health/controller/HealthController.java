@@ -1,4 +1,4 @@
-package com.waglewagle.server.domain.controller;
+package com.waglewagle.server.domain.health.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
