@@ -21,8 +21,9 @@ erDiagram
         varchar poster_url "포스터 썸네일 URL"
         datetime start_date "시작 일시"
         datetime end_date "종료 일시"
-        varchar location "장소명"
-        
+        varchar place_name "장소명"
+        varchar address "상세 주소"    
+            
         %% 축제 허용 범위
         double min_lat "최소 위도 (남쪽 끝)"
         double max_lat "최대 위도 (북쪽 끝)"
