@@ -34,8 +34,11 @@ public class Festival {
     @Column(name = "end_date", nullable = false)
     private LocalDateTime endDate;
 
-    @Column(nullable = false)
-    private String location;
+    @Column(name = "place_name", nullable = false)
+    private String placeName; // 축제 대표 장소명
+
+    @Column(name = "address", nullable = false)
+    private String address;   // 상세 주소
 
     // --- 축제 허용 범위 (Geographical Bounds) ---
     @Column(name = "min_lat")
