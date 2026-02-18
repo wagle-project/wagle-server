@@ -39,4 +39,24 @@ public class VisitorDTO {
             );
         }
     }
+
+    @Schema(description = "내 접속 상태 확인 응답")
+    public record VisitorMeResponse(
+            @Schema(description = "사용자 고유 UUID", example = "550e8400-e29b-41d4-a716-446655440000")
+            String uuid,
+
+            @Schema(description = "약관 동의 여부 (false일 경우 약관 팝업 필요)", example = "true")
+            boolean isTermsAgreed,
+
+            @Schema(description = "현재 참여 중인 축제 ID (없으면 null)", example = "1")
+            Long festivalId
+    ) {
+        public static VisitorMeResponse from(Visitor visitor) {
+            return new VisitorMeResponse(
+                    visitor.getUuid(),
+                    visitor.getIsTermsAgreed(),
+                    visitor.getFestival() != null ? visitor.getFestival().getId() : null
+            );
+        }
+    }
 }
