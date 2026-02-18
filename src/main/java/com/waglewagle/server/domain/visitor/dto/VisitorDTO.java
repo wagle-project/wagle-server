@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
-public class visitorDTO {
+public class VisitorDTO {
 
     @Schema(description = "방문자 등록 요청 (최초 로그인)")
     public record VisitorRequest(
