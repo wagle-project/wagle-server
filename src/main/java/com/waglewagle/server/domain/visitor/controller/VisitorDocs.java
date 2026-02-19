@@ -1,5 +1,6 @@
 package com.waglewagle.server.domain.visitor.controller;
 
+import com.waglewagle.server.domain.visitor.dto.CongestionDTO;
 import com.waglewagle.server.domain.visitor.dto.VisitorDTO;
 import com.waglewagle.server.domain.visitor.dto.VisitorLocationDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,4 +28,9 @@ public interface VisitorDocs {
     ResponseEntity<VisitorLocationDTO.LocationUpdateResponse> updateLocation(
             @PathVariable Long festivalId,
             @RequestBody VisitorLocationDTO.LocationUpdateRequest request);
+
+    @Operation(summary = "실시간 혼잡도 조회", description = "H3 구역별 혼잡도를 조회합니다.", security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponse(responseCode = "200", description = "성공")
+    @GetMapping("/api/v1/maps/{mapId}/congestion")
+    ResponseEntity<CongestionDTO.CongestionResponse> getCongestion(@PathVariable Long mapId);
 }
