@@ -3,7 +3,7 @@ package com.waglewagle.server.domain.timeTable.dto;
 import com.waglewagle.server.domain.timeTable.entity.TimeTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class timeTableDTO {
+public class TimeTableDTO {
     @Schema(description = "타임테이블 상세 정보")
     public record TimeTableInfo(
             @Schema(description = "타임테이블 고유 ID", example = "1")
