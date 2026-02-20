@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class FestivalController implements FestivalDocs {
+public class FestivalController implements FestivalControllerDocs {
 
     private final FestivalService festivalService;
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class TimeTableController implements TimeTableDocs {
+public class TimeTableController implements TimeTableControllerDocs {
 
     private final TimeTableService timeTableService;
 

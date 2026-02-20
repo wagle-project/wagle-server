@@ -1,6 +1,6 @@
-package com.waglewagle.server.domain.festivalMap.controller;
+package com.waglewagle.server.domain.timeTable.controller;
 
-import com.waglewagle.server.domain.festivalMap.dto.FestivalMapDTO;
+import com.waglewagle.server.domain.timeTable.dto.TimeTableDTO;
 import com.waglewagle.server.global.apiPayload.dto.ListResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -10,16 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-public interface FestivalMapDocs {
+public interface TimeTableControllerDocs {
 
     @Operation(
-            summary = "축제 지도 오버레이 조회",
-            description = "특정 축제에 등록된 지도 이미지와 좌표 경계(Bounds) 리스트를 반환합니다.",
+            summary = "축제 타임테이블 조회",
+            description = "축제의 공연 및 이벤트 일정표 이미지 리스트를 반환합니다.",
             security = @SecurityRequirement(name = "bearerAuth")
     )
     @ApiResponse(responseCode = "200", description = "성공")
-    @GetMapping("/api/v1/festivals/{festivalId}/maps")
-    ResponseEntity<ListResponseDTO<FestivalMapDTO.FestivalMapInfo>> getFestivalMaps(
+    @GetMapping("/api/v1/festivals/{festivalId}/timetables")
+    ResponseEntity<ListResponseDTO<TimeTableDTO.TimeTableInfo>> getTimeTables(
             @Parameter(description = "축제 ID") @PathVariable Long festivalId
     );
 }

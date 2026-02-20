@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class FestivalMapController implements FestivalMapDocs {
+public class FestivalMapController implements FestivalMapControllerDocs {
 
     private final FestivalMapService festivalMapService;
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public interface VisitorDocs {
+public interface VisitorControllerDocs {
 
     @Operation(summary = "방문자 등록 및 토큰 발급", description = "최초 접속 시 UUID를 생성하고 JWT를 발급합니다.")
     @ApiResponse(responseCode = "201", description = "생성 성공")

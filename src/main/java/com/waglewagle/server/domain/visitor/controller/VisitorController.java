@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class VisitorController implements VisitorDocs {
+public class VisitorController implements VisitorControllerDocs {
     private final VisitorService visitorService;
     private final CongestionService congestionService;
 
