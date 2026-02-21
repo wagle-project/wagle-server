@@ -3,33 +3,34 @@ package com.waglewagle.server.domain.visitor.controller;
 import com.waglewagle.server.domain.visitor.dto.CongestionDTO;
 import com.waglewagle.server.domain.visitor.dto.VisitorDTO;
 import com.waglewagle.server.domain.visitor.dto.VisitorLocationDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
 public class VisitorController implements VisitorControllerDocs {
-    private final VisitorService visitorService;
-    private final CongestionService congestionService;
-
+    @PostMapping("/api/v1/visitors")
     @Override
     public ResponseEntity<VisitorDTO.VisitorResponse> registerVisitor(VisitorDTO.VisitorRequest request) {
-        return ResponseEntity.status(201).body(visitorService.createVisitor(request));
+        return ResponseEntity.status(201).body(null);
     }
 
+    @GetMapping("/api/v1/visitors/me")
     @Override
-    public ResponseEntity<VisitorDTO.VisitorMeResponse> getMyStatus() {
-        return ResponseEntity.ok(visitorService.getCurrentStatus());
+    public VisitorDTO.VisitorMeResponse getMyStatus() {
+        return null;
     }
 
+    @PostMapping("/api/v1/festivals/{festivalId}/location")
     @Override
-    public ResponseEntity<VisitorLocationDTO.LocationUpdateResponse> updateLocation(Long festivalId, VisitorLocationDTO.LocationUpdateRequest request) {
-        return ResponseEntity.ok(visitorService.updateLocation(festivalId, request));
+    public VisitorLocationDTO.LocationUpdateResponse updateLocation(Long festivalId, VisitorLocationDTO.LocationUpdateRequest request) {
+        return null;
     }
 
+    @GetMapping("/api/v1/maps/{mapId}/congestion")
     @Override
-    public ResponseEntity<CongestionDTO.CongestionResponse> getCongestion(Long mapId) {
-        return ResponseEntity.ok(congestionService.getCongestion(mapId));
+    public CongestionDTO.CongestionResponse getCongestion(Long mapId) {
+        return null;
     }
 }

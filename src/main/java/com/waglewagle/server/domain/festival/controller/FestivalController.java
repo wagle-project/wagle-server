@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class FestivalController implements FestivalControllerDocs {
-
     @GetMapping("/api/v1/festivals/recommendations")
     @Override
     public ResponseEntity<ListResponseDTO<FestivalDTO.FestivalSummary>> getRecommendedFestivals() {
@@ -23,7 +22,7 @@ public class FestivalController implements FestivalControllerDocs {
 
     @GetMapping("/api/v1/festivals/{festivalId}")
     @Override
-    public ResponseEntity<FestivalDTO.FestivalDetail> getFestivalDetail(Long festivalId) {
+    public ResponseEntity<FestivalDTO.FestivalDetail> getFestivalDetail(@PathVariable Long festivalId) {
         return ResponseEntity.ok(null);
     }
 }
