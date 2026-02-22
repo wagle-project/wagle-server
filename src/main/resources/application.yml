@@ -16,3 +16,9 @@ spring:
     redis:
       host: localhost
       port: 6379
+
+jwt:
+  token:
+    secret-key: "waglewagle-secret-key-must-be-very-long-and-secure-enough" # 로컬 실행용 시크릿 키
+    expiration:
+      access: 604800000 # 일주일
