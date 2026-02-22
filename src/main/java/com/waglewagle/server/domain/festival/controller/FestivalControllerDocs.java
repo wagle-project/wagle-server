@@ -6,6 +6,7 @@ import com.waglewagle.server.global.apiPayload.dto.ListResponseDTO;
 import com.waglewagle.server.global.apiPayload.dto.PageResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,14 @@ public interface FestivalControllerDocs {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "500",
                     description = "서버 에러",
-                    content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+                    content = @Content(schema = @Schema(implementation = ApiResponse.class),
+                            examples = @ExampleObject(name = "서버 에러",
+                                    value = "{\"isSuccess\":false, \"code\":\"COMMON500\", " +
+                                            "\"message\":\"서버 에러, 관리자에게 문의하세요.\", " +
+                                            "\"result\":null}")
+                    )
+            )
+
     })
     @GetMapping("/api/v1/festivals/recommendations")
     ApiResponse<ListResponseDTO<FestivalDTO.FestivalSummary>> getRecommendedFestivals();
@@ -38,7 +46,13 @@ public interface FestivalControllerDocs {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "400",
                     description = "검색 조건 오류",
-                    content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+                    content = @Content(schema = @Schema(implementation = ApiResponse.class),
+                            examples = @ExampleObject(name = "파라미터 에러",
+                                    value = "{\"isSuccess\":false, \"code\":\"COMMON400\", " +
+                                            "\"message\":\"잘못된 요청입니다.\", " +
+                                            "\"result\":null}")
+                    )
+            )
     })
     @GetMapping("/api/v1/festivals")
     ApiResponse<PageResponseDTO<FestivalDTO.FestivalSummary>> getFestivals(
@@ -56,7 +70,13 @@ public interface FestivalControllerDocs {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "404",
                     description = "존재하지 않는 경로/축제",
-                    content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+                    content = @Content(schema = @Schema(implementation = ApiResponse.class),
+                            examples = @ExampleObject(name = "축제 없음",
+                                    value = "{\"isSuccess\":false, \"code\":\"COMMON404\", " +
+                                            "\"message\":\"해당 축제를 찾을 수 없습니다.\", " +
+                                            "\"result\":null}")
+                    )
+            )
     })
     @GetMapping("/api/v1/festivals/{festivalId}")
     ApiResponse<FestivalDTO.FestivalDetail> getFestivalDetail(

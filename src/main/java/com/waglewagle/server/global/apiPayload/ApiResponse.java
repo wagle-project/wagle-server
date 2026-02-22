@@ -6,6 +6,7 @@ import com.waglewagle.server.global.apiPayload.code.BaseErrorCode;
 import com.waglewagle.server.global.apiPayload.code.BaseSuccessCode;
 import com.waglewagle.server.global.apiPayload.dto.ListResponseDTO;
 import com.waglewagle.server.global.apiPayload.dto.PageResponseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
@@ -17,15 +18,19 @@ import java.util.List;
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 public class ApiResponse<T> {
 
+    @Schema(description = "성공 여부", example = "true")
     @JsonProperty("isSuccess")
     private final Boolean isSuccess;
 
+    @Schema(description = "응답 코드", example = "COMMON200")
     @JsonProperty("code")
     private final String code;
 
+    @Schema(description = "응답 메시지", example = "성공입니다.")
     @JsonProperty("message")
     private final String message;
 
+    @Schema(description = "응답 데이터")
     @JsonProperty("result")
     private T result;
 
