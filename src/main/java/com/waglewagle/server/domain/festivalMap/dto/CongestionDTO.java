@@ -1,4 +1,4 @@
-package com.waglewagle.server.domain.visitor.dto;
+package com.waglewagle.server.domain.festivalMap.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

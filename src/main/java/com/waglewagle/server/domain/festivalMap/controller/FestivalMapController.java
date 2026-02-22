@@ -1,6 +1,7 @@
 package com.waglewagle.server.domain.festivalMap.controller;
 
 import com.waglewagle.server.domain.festivalMap.dto.FestivalMapDTO;
+import com.waglewagle.server.domain.festivalMap.dto.CongestionDTO;
 import com.waglewagle.server.global.apiPayload.ApiResponse;
 import com.waglewagle.server.global.apiPayload.code.GeneralSuccessCode;
 import com.waglewagle.server.global.apiPayload.dto.ListResponseDTO;
@@ -15,14 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/festivals")
+@RequestMapping("/api/v1")
 public class FestivalMapController implements FestivalMapControllerDocs {
-    @GetMapping("/{festivalId}/maps")
+    @GetMapping("/festivals/{festivalId}/maps")
     @PreAuthorize("isAuthenticated()")
     @Override
     public ApiResponse<ListResponseDTO<FestivalMapDTO.FestivalMapInfo>> getFestivalMaps(
             @PathVariable Long festivalId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ApiResponse.onListSuccess(GeneralSuccessCode.OK, null);
+    }
+
+    @GetMapping("/maps/{mapId}/congestion")
+    @PreAuthorize("isAuthenticated()")
+    @Override
+    public ApiResponse<CongestionDTO.CongestionResponse> getCongestion(
+            @PathVariable Long mapId,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
 }
