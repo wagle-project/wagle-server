@@ -13,7 +13,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@RequestMapping("/api/v1/festivals")
 public interface TimeTableControllerDocs {
     @Operation(summary = "축제 타임테이블 조회 API")
     @ApiResponses({
@@ -41,7 +43,7 @@ public interface TimeTableControllerDocs {
                     )
             )
     })
-    @GetMapping("/api/v1/festivals/{festivalId}/timetables")
+    @GetMapping("/{festivalId}/timetables")
     @PreAuthorize("isAuthenticated()")
     ApiResponse<ListResponseDTO<TimeTableDTO.TimeTableInfo>> getTimeTables(
             @PathVariable Long festivalId,

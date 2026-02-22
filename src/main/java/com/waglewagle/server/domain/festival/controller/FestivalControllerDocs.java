@@ -11,8 +11,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@RequestMapping("/api/v1/festivals")
 public interface FestivalControllerDocs {
     @Operation(summary = "추천 축제 목록 조회 API",
             description = "메인 화면에 노출될 추천 축제 리스트를 반환합니다.")
@@ -32,7 +34,7 @@ public interface FestivalControllerDocs {
             )
 
     })
-    @GetMapping("/api/v1/festivals/recommendations")
+    @GetMapping("/recommendations")
     ApiResponse<ListResponseDTO<FestivalDTO.FestivalSummary>> getRecommendedFestivals();
 
     @Operation(summary = "축제 검색 API",
@@ -54,7 +56,7 @@ public interface FestivalControllerDocs {
                     )
             )
     })
-    @GetMapping("/api/v1/festivals")
+    @GetMapping("")
     ApiResponse<PageResponseDTO<FestivalDTO.FestivalSummary>> getFestivals(
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") int page,
@@ -78,7 +80,7 @@ public interface FestivalControllerDocs {
                     )
             )
     })
-    @GetMapping("/api/v1/festivals/{festivalId}")
+    @GetMapping("/{festivalId}")
     ApiResponse<FestivalDTO.FestivalDetail> getFestivalDetail(
             @PathVariable Long festivalId);
 }

@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@RequestMapping("/api/v1/festivals")
 public class FestivalController implements FestivalControllerDocs {
-    @GetMapping("/api/v1/festivals/recommendations")
+    @GetMapping("/recommendations")
     @Override
     public ApiResponse<ListResponseDTO<FestivalDTO.FestivalSummary>> getRecommendedFestivals() {
         return ApiResponse.onListSuccess(GeneralSuccessCode.OK, null);
     }
 
-    @GetMapping("/api/v1/festivals")
+    @GetMapping("")
     @Override
     public ApiResponse<PageResponseDTO<FestivalDTO.FestivalSummary>> getFestivals(
             @RequestParam(required = false) String keyword,
@@ -25,7 +26,7 @@ public class FestivalController implements FestivalControllerDocs {
         return ApiResponse.onPageSuccess(GeneralSuccessCode.OK, null);
     }
 
-    @GetMapping("/api/v1/festivals/{festivalId}")
+    @GetMapping("/{festivalId}")
     @Override
     public ApiResponse<FestivalDTO.FestivalDetail> getFestivalDetail(
             @PathVariable Long festivalId) {
