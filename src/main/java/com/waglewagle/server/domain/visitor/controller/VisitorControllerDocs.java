@@ -13,7 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v1/visitors")
+@RequestMapping("/api/v1")
 public interface VisitorControllerDocs {
     @Operation(summary = "동의 API")
     @ApiResponses({
@@ -31,7 +31,7 @@ public interface VisitorControllerDocs {
                     )
             )
     })
-    @PostMapping("")
+    @PostMapping("/visitors")
     ApiResponse<VisitorDTO.VisitorResponse> registerVisitor(
             @RequestBody VisitorDTO.VisitorRequest request);
 
@@ -51,7 +51,7 @@ public interface VisitorControllerDocs {
                     )
             )
     })
-    @GetMapping("/me")
+    @GetMapping("/visitors/me")
     @PreAuthorize("isAuthenticated()")
     ApiResponse<VisitorDTO.VisitorMeResponse> getMyStatus(
             @AuthenticationPrincipal CustomUserDetails userDetails);
@@ -72,7 +72,7 @@ public interface VisitorControllerDocs {
                     )
             )
     })
-    @PostMapping("/festivals/{festivalId}/location")
+    @PostMapping("/festivals/{festivalId}/visitors/location")
     ApiResponse<VisitorLocationDTO.LocationUpdateResponse> updateLocation(
             @PathVariable Long festivalId,
             @RequestBody VisitorLocationDTO.LocationUpdateRequest request,

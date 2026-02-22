@@ -30,7 +30,7 @@ public class VisitorController implements VisitorControllerDocs {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
 
-    @PostMapping("/festivals/{festivalId}/location")
+    @PostMapping("/festivals/{festivalId}/visitors/location")
     @PreAuthorize("isAuthenticated()")
     @Override
     public ApiResponse<VisitorLocationDTO.LocationUpdateResponse> updateLocation(
