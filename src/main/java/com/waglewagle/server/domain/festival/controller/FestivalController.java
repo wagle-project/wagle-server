@@ -5,10 +5,12 @@ import com.waglewagle.server.global.apiPayload.ApiResponse;
 import com.waglewagle.server.global.apiPayload.code.GeneralSuccessCode;
 import com.waglewagle.server.global.apiPayload.dto.ListResponseDTO;
 import com.waglewagle.server.global.apiPayload.dto.PageResponseDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/festivals")
 public class FestivalController implements FestivalControllerDocs {
     @GetMapping("/recommendations")
