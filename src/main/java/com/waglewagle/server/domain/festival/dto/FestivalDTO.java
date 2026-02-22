@@ -59,7 +59,7 @@ public class FestivalDTO {
             @Schema(description = "축제 상세 설명", example = "여러가지 김밥을 즐길 수 있는 축제입니다.")
             String description,
 
-            @Schema(description = "S3 포스터 이미지 URL")
+            @Schema(description = "S3 포스터 이미지 URL", example = "https://s3.ap-northeast-2.amazonaws.com/festivals/poster1.jpg")
             String posterUrl,
 
             @Schema(description = "축제 시작 일시", example = "2025-09-27T08:00:00")

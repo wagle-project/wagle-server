@@ -21,7 +21,7 @@ public class VisitorDTO {
             @Schema(description = "서버 생성 UUID (ID)", example = "550e8400-e29b-41d4-a716-446655440000")
             String uuid,
 
-            @Schema(description = "JWT 액세스 토큰")
+            @Schema(description = "JWT 액세스 토큰", example = "eyJhbGciOiJIUzI1...")
             String accessToken,
 
             @Schema(description = "최초 등록 시간", example = "2026-02-18T12:28:14.15784")
