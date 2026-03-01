@@ -14,8 +14,8 @@ public class PageResponseDTO<T> {
     private long totalElements;
     private boolean isFirst;
     private boolean isLast;
-    private int listSize;
-    private int currentPage;
+    private int size;
+    private int page;
 
     public PageResponseDTO(Page<T> page) {
         this.content = page.getContent();
@@ -23,7 +23,7 @@ public class PageResponseDTO<T> {
         this.totalElements = page.getTotalElements();
         this.isFirst = page.isFirst();
         this.isLast = page.isLast();
-        this.listSize = page.getSize();
-        this.currentPage = page.getNumber() + 1;
+        this.size = page.getSize();
+        this.page = page.getNumber() + 1;
     }
 }
