@@ -3,8 +3,6 @@ package com.waglewagle.server.domain.festivalMap.dto;
 import com.waglewagle.server.domain.festivalMap.entity.FestivalMap;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.List;
-
 public class FestivalMapDTO {
     @Schema(description = "축제 지도 상세 정보")
     public record FestivalMapInfo(

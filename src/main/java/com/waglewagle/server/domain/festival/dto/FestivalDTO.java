@@ -24,7 +24,7 @@ public class FestivalDTO {
             @Schema(description = "축제 명칭", example = "2026 김천 김밥 축제")
             String name,
 
-            @Schema(description = "S3 포스터 이미지 URL")
+            @Schema(description = "S3 포스터 이미지 URL", example = "https://s3.ap-northeast-2.amazonaws.com/festivals/poster1.jpg")
             String posterUrl,
 
             @Schema(description = "축제 진행 상태 (UPCOMING, ONGOING, ENDED)", example = "ONGOING")
@@ -68,9 +68,6 @@ public class FestivalDTO {
             @Schema(description = "축제 종료 일시", example = "2025-10-15T22:00:00")
             LocalDateTime endDate,
 
-            @Schema(description = "축제 상태 (UPCOMING, ONGOING, ENDED)", example = "ONGOING")
-            String status,
-
             @Schema(description = "대표 장소 명칭", example = "김천 사명대사공원")
             String placeName,
 
@@ -88,7 +85,6 @@ public class FestivalDTO {
                     festival.getPosterUrl(),
                     festival.getStartDate(),
                     festival.getEndDate(),
-                    calculateStatus(festival.getStartDate(), festival.getEndDate()),
                     festival.getPlaceName(),
                     festival.getAddress()
             );
