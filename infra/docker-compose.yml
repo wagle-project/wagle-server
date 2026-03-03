@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # 1. DB 컨테이너 (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: mysql-server
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_NAME}"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  # 2. 사진 서빙용 컨테이너 (Nginx)
+  nginx-storage:
+    image: nginx:latest
+    container_name: nginx-storage
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./images:/usr/share/nginx/html
