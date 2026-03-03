@@ -21,7 +21,7 @@ public class FestivalDTO {
             @Schema(description = "축제 고유 ID", example = "1")
             Long id,
 
-            @Schema(description = "축제 명칭", example = "2026 김천 김밥 축제")
+            @Schema(description = "축제 명칭", example = "2026김천김밥축제")
             String name,
 
             @Schema(description = "S3 포스터 이미지 URL", example = "https://s3.ap-northeast-2.amazonaws.com/festivals/poster1.jpg")
@@ -53,7 +53,7 @@ public class FestivalDTO {
             @Schema(description = "축제 고유 ID", example = "1")
             Long id,
 
-            @Schema(description = "축제 명칭", example = "2026 김천 김밥 축제")
+            @Schema(description = "축제 명칭", example = "2026김천김밥축제")
             String name,
 
             @Schema(description = "축제 상세 설명", example = "여러가지 김밥을 즐길 수 있는 축제입니다.")

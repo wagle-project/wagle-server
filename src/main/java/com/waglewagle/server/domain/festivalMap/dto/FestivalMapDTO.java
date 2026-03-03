@@ -12,7 +12,7 @@ public class FestivalMapDTO {
             @Schema(description = "지도 이미지 ID", example = "7")
             Long mapId,
 
-            @Schema(description = "지도 이미지 URL")
+            @Schema(description = "지도 이미지 URL", example = "https://s3.ap-northeast-2.amazonaws.com/festivals/poster1.jpg")
             String mapImageUrl,
 
             @Schema(description = "지도 좌표 경계 (Ground Overlay용)")
