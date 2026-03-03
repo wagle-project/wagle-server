@@ -26,3 +26,12 @@ jwt:
     secret-key: ${JWT_SECRET_KEY}
     expiration:
       access: 604800000 # 일주일 (기존 유지)
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    disable-swagger-default-url: true # 리다이렉트 문제를 방지

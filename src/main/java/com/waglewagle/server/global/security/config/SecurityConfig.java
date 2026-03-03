@@ -40,7 +40,7 @@ public class SecurityConfig {
                 // 2. 경로별 권한 설정
                 .authorizeHttpRequests(authorize -> authorize
                         // 스웨거 및 health의 경우 인증 불필요
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/health").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs", "/health").permitAll()
 
                         // 나머지는 다 인증 필요
                         .anyRequest().authenticated()
