@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: wagle-server
+  datasource:
+    # 1. DB 주소: 프라이빗 서버의 비공개 IP를 도커가 주입해줄 수 있도록 설정
+    url: jdbc:mysql://${DB_URL}:3306/waglewagle?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # 초기 운영 환경이므로 update로 설정
+    properties:
+      hibernate:
+        format_sql: false # 운영 환경에서 로그 부하를 줄이기 위해 false로 설정
+  data:
+    redis:
+      # 2. Redis 주소
+      host: ${REDIS_HOST}
+      port: 6379
+      password: ${REDIS_PASSWORD}
+
+jwt:
+  token:
+    # 3. 시크릿 키는 환경 변수로 분리
+    secret-key: ${JWT_SECRET_KEY}
+    expiration:
+      access: 604800000 # 일주일 (기존 유지)
