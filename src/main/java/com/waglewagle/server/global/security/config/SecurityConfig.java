@@ -40,6 +40,9 @@ public class SecurityConfig {
 
                 // 2. 경로별 권한 설정
                 .authorizeHttpRequests(authorize -> authorize
+                        // 에러 페이지로 포워딩되는 요청은 무조건 허가
+                        .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ERROR).permitAll()
+
                         // 스웨거 및 health의 경우 인증 불필요
                         .requestMatchers("/swagger-ui/**",
                                 "/swagger-ui.html",
@@ -47,8 +50,7 @@ public class SecurityConfig {
                                 "/v3/api-docs",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/health",
-                                "/error").permitAll()
+                                "/health").permitAll()
 
                         // 나머지는 다 인증 필요
                         .anyRequest().authenticated()
