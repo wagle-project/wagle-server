@@ -47,7 +47,8 @@ public class SecurityConfig {
                                 "/v3/api-docs",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/health").permitAll()
+                                "/health",
+                                "/error").permitAll()
 
                         // 나머지는 다 인증 필요
                         .anyRequest().authenticated()
