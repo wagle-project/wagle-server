@@ -35,3 +35,6 @@ springdoc:
     path: /swagger-ui.html
     enabled: true
     disable-swagger-default-url: true # 리다이렉트 문제를 방지
+
+server:
+  forward-headers-strategy: framework
