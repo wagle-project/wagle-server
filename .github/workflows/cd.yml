@@ -59,4 +59,4 @@ jobs:
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
             docker pull ${{ vars.DOCKERHUB_USERNAME }}/wagle-server:latest
-            docker-compose up -d wagle-app
+            docker compose up -d wagle-app
