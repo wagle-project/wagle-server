@@ -40,6 +40,7 @@ jobs:
           host: ${{ vars.NCP_HOST }}
           username: ${{ secrets.NCP_USERNAME || 'root' }}
           key: ${{ secrets.NCP_SSH_KEY }}
+          password: ${{ secrets.NCP_PASSWORD }}
           source: "docker-compose.yml"
           target: "~/deploy"
 
@@ -49,6 +50,7 @@ jobs:
           host: ${{ vars.NCP_HOST }}
           username: ${{ secrets.NCP_USERNAME || 'root' }}
           key: ${{ secrets.NCP_SSH_KEY }}
+          password: ${{ secrets.NCP_PASSWORD }}
           script: |
             cd ~/deploy
             export DOCKERHUB_USERNAME=${{ vars.DOCKERHUB_USERNAME }}
