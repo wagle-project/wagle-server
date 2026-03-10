@@ -1,12 +1,10 @@
 spring:
-  profiles:
-    active: local # 기본값을 local로 설정
   application:
     name: wagle-server
   datasource:
-    url: jdbc:mysql://localhost:3306/wagle?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/wagle?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: root  # 도커 비밀번호 (root로 설정했음)
+    password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -16,11 +14,11 @@ spring:
         format_sql: true
   data:
     redis:
-      host: localhost
+      host: ${REDIS_HOST:localhost}
       port: 6379
 
 jwt:
   token:
-    secret-key: "waglewagle-secret-key-must-be-very-long-and-secure-enough" # 로컬 실행용 시크릿 키
+    secret-key: ${JWT_SECRET_KEY:waglewagle-secret-key-must-be-very-long-and-secure-enough}
     expiration:
-      access: 604800000 # 일주일
+      access: 604800000
