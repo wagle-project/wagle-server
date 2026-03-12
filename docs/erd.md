@@ -1,5 +1,3 @@
-# API Wiki ERD
-
 ```mermaid
 erDiagram
     FESTIVAL ||--o{ VISITOR : "has (접속자)"
