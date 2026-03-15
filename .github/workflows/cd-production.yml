@@ -1,15 +1,15 @@
-name: CD
+name: CD (Production)
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: staging
+    environment: production
     concurrency:
-      group: deploy-develop
+      group: deploy-main
       cancel-in-progress: true
 
     steps:
