@@ -1,0 +1,70 @@
+# CodeRabbit 설정 파일
+# 공식 문서: https://docs.coderabbit.ai/
+
+language: "ko-KR"
+
+reviews:
+  # PR 생성 즉시 자동 리뷰 시작
+  auto_review:
+    enabled: true
+    drafts: false
+
+  # 리뷰 프로필: assertive(날카롭게) / chill(가볍게)
+  profile: "assertive"
+
+  # 리뷰 대상에서 제외할 경로
+  path_filters:
+    - "!**/.github/**"
+    - "!**/build/**"
+    - "!**/generated/**"
+    - "!**/*.md"
+    - "!.coderabbit.yaml"
+
+  # 파일별 리뷰 지침
+  path_instructions:
+    - path: "src/main/java/**/controller/**"
+      instructions: |
+        - 반드시 `*ControllerDocs` 인터페이스와 구현이 일치하는지 확인 (Swagger 문서 누락 경고)
+        - 응답은 `ApiResponse<T>` 공통 포맷을 사용했는지 확인
+        - `@PreAuthorize` 어노테이션이 필요한 엔드포인트에 누락되지 않았는지 검토
+
+    - path: "src/main/java/**/service/**"
+      instructions: |
+        - 비즈니스 로직이 서비스 레이어에 집중되어 있는지 확인 (컨트롤러/리포지토리에 로직 분산 경고)
+        - 트랜잭션 처리(`@Transactional`)가 적절한지 검토
+
+    - path: "src/main/java/**/entity/**"
+      instructions: |
+        - JPA 연관관계 설정 시 무한 순환 참조(Infinite Loop) 가능성 검토
+        - `@ToString`, `@EqualsAndHashCode` 사용 시 연관 엔티티 제외 여부 확인
+
+    - path: "src/main/java/**/security/**"
+      instructions: |
+        - 보안 관련 코드는 특히 꼼꼼히 검토
+        - JWT 토큰 검증 로직 누락 또는 우회 가능성 확인
+        - 민감 정보(비밀번호, 토큰 등)가 로그에 출력되지 않는지 확인
+
+    - path: "src/main/java/**/global/apiPayload/**"
+      instructions: |
+        - 에러 코드가 `BaseErrorCode` / `BaseSuccessCode` 인터페이스를 올바르게 구현했는지 확인
+        - 중복 에러 코드 정의 여부 검토
+
+    - path: ".github/workflows/**"
+      instructions: |
+        - GitHub Actions 워크플로우 변경 시 시크릿(Secret) 키 하드코딩 여부 반드시 확인
+        - 트리거 브랜치 설정이 의도에 맞는지 검토
+
+  # 전체 코드베이스에 적용되는 리뷰 지침
+  review_instructions: |
+    이 프로젝트는 Java 21 + Spring Boot 기반의 축제 정보 서비스 백엔드입니다.
+
+    **공통 체크리스트**
+    - 예외 처리: `GeneralException`과 `GeneralErrorCode`를 활용하고 있는지 확인
+    - 응답 포맷: 모든 API 응답이 `ApiResponse<T>` 구조를 따르는지 확인
+    - 로깅: 민감 정보(토큰, 비밀번호)가 로그에 포함되지 않는지 확인
+    - 보안: SQL Injection, XSS 등 OWASP Top 10 취약점 가능성 검토
+    - 코드 스타일: 불필요한 주석(TODO 미처리, 임시 코드) 제거 여부 확인
+
+chat:
+  # PR 댓글로 CodeRabbit과 대화 가능 여부
+  auto_reply: true
