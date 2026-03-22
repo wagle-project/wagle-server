@@ -34,6 +34,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Create deploy directory on NCP
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ vars.NCP_HOST }}
+          username: ${{ secrets.NCP_USERNAME || 'root' }}
+          key: ${{ secrets.NCP_SSH_KEY }}
+          password: ${{ secrets.NCP_PASSWORD }}
+          script: mkdir -p ~/deploy
+
       - name: Copy docker-compose.yml to NCP
         uses: appleboy/scp-action@v0.1.7
         with:
