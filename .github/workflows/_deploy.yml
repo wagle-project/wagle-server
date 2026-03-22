@@ -73,5 +73,6 @@ jobs:
             export DB_USERNAME=${{ vars.DB_USERNAME }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+            docker image prune -af
             docker pull ${{ vars.DOCKERHUB_USERNAME }}/wagle-server:latest
             docker compose up -d --no-deps --force-recreate wagle-app
