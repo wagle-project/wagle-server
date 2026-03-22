@@ -39,3 +39,10 @@ out/
 ### Docker Local Data ###
 db/
 .DS_Store
+.aider*
+
+### Local Secrets ###
+.env
+*.pem
+*.local.bak
+n8n-github-ai-workflow.json

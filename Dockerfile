@@ -20,12 +20,19 @@ RUN ./gradlew clean build -x test --no-daemon
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
+# 에러 발송(Webhook 파싱 및 전송)을 위한 curl, jq 패키지 설치
+RUN apk add --no-cache curl jq
+
 # 빌드 결과물 중 0.0.1-SNAPSHOT.jar 파일만 app.jar로 복사
 COPY --from=build /app/build/libs/*-SNAPSHOT.jar app.jar
+
+# 자가 치유용 래퍼 스크립트 복사 및 권한 부여
+COPY start-app.sh .
+RUN chmod +x start-app.sh
 
 # 컨테이너 포트 설정
 EXPOSE 8080
 
-# 배포 환경 설정 및 한국 시간대 설정 후 실행
+# 배포 환경 설정 및 커스텀 스크립트로 실행 (java 명령어를 직접 치지 않음)
 ENV SPRING_PROFILES_ACTIVE=prod
-ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "app.jar"]
+ENTRYPOINT ["./start-app.sh"]
