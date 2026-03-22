@@ -14,9 +14,15 @@ echo "====================================="
 
 cd "$PROJECT_DIR" || exit 1
 
-# gh CLI로 실제 실패 로그 직접 fetch
-echo ">> GitHub Actions 실패 로그를 가져옵니다... (Run ID: $RUN_ID)"
-LOG_TEXT=$(gh run view "$RUN_ID" --log-failed 2>&1)
+# 서버 자체 실행 중 발생한 에러인지, GitHub CI 빌드 에러인지 구분
+if [[ "$RUN_ID" == "SERVER_FATAL"* ]]; then
+  echo ">> 서버 런타임 자체 에러 감지됨. 서버에서 직송된 로그를 파싱합니다."
+  LOG_TEXT=$4
+else
+  # gh CLI로 실제 CI 빌드 실패 로그 직접 fetch
+  echo ">> GitHub Actions 실패 로그를 가져옵니다... (Run ID: $RUN_ID)"
+  LOG_TEXT=$(gh run view "$RUN_ID" --log-failed 2>&1 || echo "")
+fi
 
 if [ -z "$LOG_TEXT" ]; then
   echo "⚠️ 실패 로그를 가져오지 못했습니다. Run ID를 확인하세요."
@@ -25,8 +31,12 @@ fi
 
 # 노드 및 모델 티어별 명령어 설정
 # Aider를 백그라운드(비대화형)에서 자율 에이전트로 돌리기 위한 세팅
-# ANTHROPIC_API_KEY는 환경변수로 주입 (예: ~/.zshrc 또는 n8n 실행 환경에서 설정)
-AI_CLI_COMMAND="/opt/homebrew/bin/aider --model claude-sonnet-4-6 --yes --message"
+# 보안을 위해 git에 커밋되지 않는 .env 파일에서 불러옵니다.
+if [ -f "$PROJECT_DIR/.env" ]; then
+  source "$PROJECT_DIR/.env"
+fi
+
+AI_CLI_COMMAND="/opt/homebrew/bin/aider --model gemini/gemini-2.5-pro --yes --message"
 
 # 15회 이상 실패 시 안전장치 (휴먼 개입) - n8n에서 사전에 걸러지지만 이중 방어
 if [ "$FAIL_COUNT" -ge 15 ]; then
