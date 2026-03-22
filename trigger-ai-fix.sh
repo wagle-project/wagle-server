@@ -1,19 +1,27 @@
 #!/bin/bash
 # trigger-ai-fix.sh
-# GitHub Action 실패 Webhook 수신 시 n8n에서 이 스크립트를 호출하여 로컬 AI(Claude Code, Antigravity 등)를 구동합니다.
-# 사용법: ./trigger-ai-fix.sh <github_run_id> <failure_count> <model_tier> <log_file_or_text>
+# GitHub Action 실패 Webhook 수신 시 n8n에서 이 스크립트를 호출하여 로컬 AI(Aider)를 구동합니다.
+# 사용법: ./trigger-ai-fix.sh <github_run_id> <failure_count> <model_tier>
 
 PROJECT_DIR="/Users/seoyeon/Projects/YUProjects/wagle-server"
 RUN_ID=$1
 FAIL_COUNT=$2
 MODEL_TIER=$3
-LOG_TEXT=$4
 
 echo "====================================="
 echo "[AI Fix Triggered] Run ID: $RUN_ID | Retry: $FAIL_COUNT | Model: $MODEL_TIER"
 echo "====================================="
 
 cd "$PROJECT_DIR" || exit 1
+
+# gh CLI로 실제 실패 로그 직접 fetch
+echo ">> GitHub Actions 실패 로그를 가져옵니다... (Run ID: $RUN_ID)"
+LOG_TEXT=$(gh run view "$RUN_ID" --log-failed 2>&1)
+
+if [ -z "$LOG_TEXT" ]; then
+  echo "⚠️ 실패 로그를 가져오지 못했습니다. Run ID를 확인하세요."
+  exit 1
+fi
 
 # 노드 및 모델 티어별 명령어 설정
 # Aider를 백그라운드(비대화형)에서 자율 에이전트로 돌리기 위한 세팅
