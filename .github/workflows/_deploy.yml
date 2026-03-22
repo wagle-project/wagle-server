@@ -9,19 +9,6 @@ on:
       concurrency_group:
         required: true
         type: string
-    secrets:
-      DOCKERHUB_TOKEN:
-        required: true
-      NCP_USERNAME:
-        required: false
-      NCP_SSH_KEY:
-        required: false
-      NCP_PASSWORD:
-        required: false
-      DB_PASSWORD:
-        required: true
-      JWT_SECRET_KEY:
-        required: true
 
 jobs:
   deploy:
