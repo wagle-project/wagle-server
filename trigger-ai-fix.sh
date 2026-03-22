@@ -1,13 +1,12 @@
 #!/bin/bash
 # trigger-ai-fix.sh
-# GitHub Action 실패 Webhook 수신 시 n8n에서 이 스크립트를 호출하여 로컬 AI(Claude Code, Antigravity 등)를 구동합니다.
-# 사용법: ./trigger-ai-fix.sh <github_run_id> <failure_count> <model_tier> <log_file_or_text>
+# GitHub Action 실패 Webhook 수신 시 n8n에서 이 스크립트를 호출하여 로컬 AI(Aider)를 구동합니다.
+# 사용법: ./trigger-ai-fix.sh <github_run_id> <failure_count> <model_tier>
 
 PROJECT_DIR="/Users/seoyeon/Projects/YUProjects/wagle-server"
 RUN_ID=$1
 FAIL_COUNT=$2
 MODEL_TIER=$3
-LOG_TEXT=$4
 
 echo "====================================="
 echo "[AI Fix Triggered] Run ID: $RUN_ID | Retry: $FAIL_COUNT | Model: $MODEL_TIER"
@@ -15,9 +14,27 @@ echo "====================================="
 
 cd "$PROJECT_DIR" || exit 1
 
-# 노드 및 모델 티어별 명령어 설정
-# 사용자 요청 방식에 맞춘 Antigravity 전용 백그라운드 명령어
-AI_CLI_COMMAND="antigravity chat"
+# 보안을 위해 git에 커밋되지 않는 .env 파일에서 불러옵니다.
+if [ -f "$PROJECT_DIR/.env" ]; then
+  source "$PROJECT_DIR/.env"
+fi
+
+# 서버 자체 실행 중 발생한 에러인지, GitHub CI 빌드 에러인지 구분
+if [[ "$RUN_ID" == "SERVER_FATAL"* ]]; then
+  echo ">> 서버 런타임 자체 에러 감지됨. 서버에서 직송된 로그를 파싱합니다."
+  LOG_TEXT=$4
+else
+  # gh CLI로 실제 CI 빌드 실패 로그 직접 fetch
+  echo ">> GitHub Actions 실패 로그를 가져옵니다... (Run ID: $RUN_ID)"
+  LOG_TEXT=$(gh run view "$RUN_ID" --log-failed 2>&1 || echo "")
+fi
+
+if [ -z "$LOG_TEXT" ]; then
+  echo "⚠️ 실패 로그를 가져오지 못했습니다. Run ID를 확인하세요."
+  exit 1
+fi
+
+AI_CLI_COMMAND="/opt/homebrew/bin/aider --model gemini/gemini-2.5-flash --yes --message"
 
 # 15회 이상 실패 시 안전장치 (휴먼 개입) - n8n에서 사전에 걸러지지만 이중 방어
 if [ "$FAIL_COUNT" -ge 15 ]; then

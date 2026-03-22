@@ -43,3 +43,10 @@ db/
 ### AI Agent Tools ###
 CLAUDE.md
 .agents/
+.aider*
+
+### Local Secrets ###
+.env
+*.pem
+*.local.bak
+n8n-github-ai-workflow.json
