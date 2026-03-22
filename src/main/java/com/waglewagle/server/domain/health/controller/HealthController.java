@@ -9,6 +9,7 @@ public class HealthController implements HealthControllerDocs {
     @GetMapping("/health")
     @Override
     public String healthCheck() {
+        THIS_IS_A_DELIBERATE_COMPILE_ERROR
         return "I'm alive!!!";
     }
 }
