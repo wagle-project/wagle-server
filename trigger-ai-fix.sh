@@ -17,7 +17,7 @@ cd "$PROJECT_DIR" || exit 1
 
 # 노드 및 모델 티어별 명령어 설정
 # 사용자 요청 방식에 맞춘 Antigravity 전용 백그라운드 명령어
-AI_CLI_COMMAND="antigravity chat"
+AI_CLI_COMMAND="/Users/seoyeon/.antigravity/antigravity/bin/antigravity chat"
 
 # 15회 이상 실패 시 안전장치 (휴먼 개입) - n8n에서 사전에 걸러지지만 이중 방어
 if [ "$FAIL_COUNT" -ge 15 ]; then
