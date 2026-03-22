@@ -14,6 +14,11 @@ echo "====================================="
 
 cd "$PROJECT_DIR" || exit 1
 
+# 보안을 위해 git에 커밋되지 않는 .env 파일에서 불러옵니다.
+if [ -f "$PROJECT_DIR/.env" ]; then
+  source "$PROJECT_DIR/.env"
+fi
+
 # 서버 자체 실행 중 발생한 에러인지, GitHub CI 빌드 에러인지 구분
 if [[ "$RUN_ID" == "SERVER_FATAL"* ]]; then
   echo ">> 서버 런타임 자체 에러 감지됨. 서버에서 직송된 로그를 파싱합니다."
@@ -27,13 +32,6 @@ fi
 if [ -z "$LOG_TEXT" ]; then
   echo "⚠️ 실패 로그를 가져오지 못했습니다. Run ID를 확인하세요."
   exit 1
-fi
-
-# 노드 및 모델 티어별 명령어 설정
-# Aider를 백그라운드(비대화형)에서 자율 에이전트로 돌리기 위한 세팅
-# 보안을 위해 git에 커밋되지 않는 .env 파일에서 불러옵니다.
-if [ -f "$PROJECT_DIR/.env" ]; then
-  source "$PROJECT_DIR/.env"
 fi
 
 AI_CLI_COMMAND="/opt/homebrew/bin/aider --model gemini/gemini-2.5-pro --yes --message"
