@@ -10,10 +10,4 @@ jobs:
     with:
       environment: production
       concurrency_group: deploy-main
-    secrets:
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-      NCP_USERNAME: ${{ secrets.NCP_USERNAME }}
-      NCP_SSH_KEY: ${{ secrets.NCP_SSH_KEY }}
-      NCP_PASSWORD: ${{ secrets.NCP_PASSWORD }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+    secrets: inherit
