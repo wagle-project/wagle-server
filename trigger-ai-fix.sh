@@ -34,7 +34,7 @@ if [ -z "$LOG_TEXT" ]; then
   exit 1
 fi
 
-AI_CLI_COMMAND="/opt/homebrew/bin/aider --model gemini/gemini-2.5-pro --yes --message"
+AI_CLI_COMMAND="/opt/homebrew/bin/aider --model gemini/gemini-2.5-flash --yes --message"
 
 # 15회 이상 실패 시 안전장치 (휴먼 개입) - n8n에서 사전에 걸러지지만 이중 방어
 if [ "$FAIL_COUNT" -ge 15 ]; then
