@@ -60,7 +60,7 @@ jobs:
           username: ${{ secrets.NCP_USERNAME || 'root' }}
           key: ${{ secrets.NCP_SSH_KEY }}
           password: ${{ secrets.NCP_PASSWORD }}
-          script: mkdir -p ~/deploy
+          script: mkdir -p /root/deploy
 
       - name: Copy docker-compose.yml to NCP
         uses: appleboy/scp-action@v0.1.7
@@ -70,7 +70,7 @@ jobs:
           key: ${{ secrets.NCP_SSH_KEY }}
           password: ${{ secrets.NCP_PASSWORD }}
           source: "docker-compose.yml"
-          target: "~/deploy"
+          target: /root/deploy
 
       - name: Deploy to NCP via SSH
         uses: appleboy/ssh-action@v1
@@ -80,7 +80,7 @@ jobs:
           key: ${{ secrets.NCP_SSH_KEY }}
           password: ${{ secrets.NCP_PASSWORD }}
           script: |
-            cd ~/deploy
+            cd /root/deploy
             export DOCKERHUB_USERNAME=${{ vars.DOCKERHUB_USERNAME }}
             export DB_HOST=${{ vars.DB_HOST }}
             export DB_USERNAME=${{ vars.DB_USERNAME }}
