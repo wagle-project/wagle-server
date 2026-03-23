@@ -9,6 +9,6 @@ public class HealthController implements HealthControllerDocs {
     @GetMapping("/health")
     @Override
     public String healthCheck() {
-        return "I'm alive now!!";
+        return "I'm alive now!";
     }
 }
