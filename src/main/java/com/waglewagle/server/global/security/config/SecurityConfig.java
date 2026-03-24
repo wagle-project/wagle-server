@@ -52,8 +52,9 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/health").permitAll()
 
-                        // 나머지는 다 인증 필요
-                        .anyRequest().authenticated()
+                        // 나머지는 다 인증 불필요
+                        // 인증이 필요한 메소드 위 @PreAuthorize을 붙일 것
+                        .anyRequest().permitAll()
                 )
 
                 // 3. JwtFilter를 시큐리티 필터 체인에 끼워 넣기
