@@ -35,6 +35,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: infra/Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/wagle-server:latest
           cache-from: type=gha
@@ -56,7 +57,7 @@ jobs:
           username: ${{ secrets.NCP_USERNAME || 'root' }}
           key: ${{ secrets.NCP_SSH_KEY }}
           password: ${{ secrets.NCP_PASSWORD }}
-          source: "docker-compose.yml"
+          source: "infra/docker-compose.yml"
           target: /root/deploy
 
       - name: Deploy to NCP via SSH
@@ -75,4 +76,4 @@ jobs:
             export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
             docker image prune -af
             docker pull ${{ vars.DOCKERHUB_USERNAME }}/wagle-server:latest
-            docker compose up -d --no-deps --force-recreate wagle-app
+            docker compose -f infra/docker-compose.yml up -d --no-deps --force-recreate wagle-app

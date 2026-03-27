@@ -27,7 +27,7 @@ RUN apk add --no-cache curl jq
 COPY --from=build /app/build/libs/*-SNAPSHOT.jar app.jar
 
 # 자가 치유용 래퍼 스크립트 복사 및 권한 부여
-COPY start-app.sh .
+COPY infra/start-app.sh .
 RUN chmod +x start-app.sh
 
 # 컨테이너 포트 설정
