@@ -21,11 +21,15 @@ public class TimeTableService {
     public List<TimeTableDTO.TimeTableInfo> getTimeTalbes(
             Long festivalId, CustomUserDetails userDetails) {
 
+        //만약 사용자 동의가 없다면 exception 발생 시킴
         if (!userDetails.getVisitor().getIsTermsAgreed()) {
             throw new GeneralException(GeneralErrorCode.UNAUTHORIZED);
         }
 
+        //festivalId에 맞는 TimeTable을 찾음(여러 개를 찾음)
         List<TimeTable> timeTableList = timeTableRepository.findByFestivalId(festivalId);
+
+        //DTO로 변환 시킴
         return timeTableList.stream()
                 .map(TimeTableDTO.TimeTableInfo::from)
                 .toList();
