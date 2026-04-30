@@ -20,10 +20,12 @@ public class VisitorService {
     private final JwtUtil jwtUtil;
 
     // 최초 로그인 (방문자 생성 및 토큰 발급)
+    @Transactional
     public VisitorDTO.VisitorResponse registerVisitor(VisitorDTO.VisitorRequest request) {
-        // 1. 엔티티 생성 및 저장 (UUID, createdAt 자동 생성)
+        // 1. 엔티티 생성 및 저장 (createdAt 자동 생성)
         Visitor visitor = Visitor.builder()
                 .isTermsAgreed(request.isTermsAgreed())
+                .uuid(java.util.UUID.randomUUID().toString())
                 .build();
 
         Visitor savedVisitor = visitorRepository.save(visitor);
