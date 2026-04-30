@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +24,38 @@ public class FestivalService {
 
     public List<FestivalDTO.FestivalSummary> getRecommendedFestivals() {
 
+        LocalDateTime now = LocalDateTime.now();
+        Pageable pageable = PageRequest.of(0, 5);
+
+        // 1. 진행 중인 축제 확인
+        List<Festival> ongoing = festivalRepository.findOngoing(now, pageable);
+        if (!ongoing.isEmpty()) {
+            return ongoing.stream().map(FestivalDTO.FestivalSummary::from).toList();
+        }
+
+        // 2. 예정된 축제 확인
+        List<Festival> upcoming = festivalRepository.findUpcoming(now, pageable);
+        if (!upcoming.isEmpty()) {
+            return upcoming.stream().map(FestivalDTO.FestivalSummary::from).toList();
+        }
+
+        // 3. 지난 축제 확인
+        List<Festival> end = festivalRepository.findEnd(now, pageable);
+        if (!end.isEmpty()) {
+            return end.stream().map(FestivalDTO.FestivalSummary::from).toList();
+        }
+
+        return Collections.emptyList();
+
         //개최중인 것 중에 시작 날짜가 제일 최신인 거
         //혹시 개최 중인 축제가 없으면 개최 준비 중 중에 시작 날짜가 제일 가까운 거
         //이것도 없으면 개최 끝난 축제 중에라도 끝난 날짜가 제일 가까운 거
 
-        return
+        //entity에 status를 추가하면 스케줄러를 이용해서 자동 DB 업데이트 필요
+        // -> 이런 경우는 데이터 수가 많고 사용자가 많을 시 사용하면 유리
+
+        //그냥 entity 수정 없이 쿼리로 status 계산
+        // -> 데이터 수가 적고 사용자가 적을 시 사용하면 유리
     }
 
     public Page<FestivalDTO.FestivalSummary> getFastivals(
