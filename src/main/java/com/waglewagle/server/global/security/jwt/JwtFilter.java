@@ -28,6 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
+            log.info("Authorization Header: {}", authorizationHeader);
 
             // 토큰 유효성 검증
             if (jwtUtil.isValid(token)) {
@@ -44,7 +45,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 } catch (Exception e) {
-                    log.warn("JwtFilter - 유저 인증 실패 (UUID: {}): {}", uuid, e.getMessage());
+                    log.error("JwtFilter 인증 에러 상세 정보: ", e);
                 }
             }
         }
