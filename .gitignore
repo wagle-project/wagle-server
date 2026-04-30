@@ -39,6 +39,10 @@ out/
 ### Docker Local Data ###
 db/
 .DS_Store
+
+### AI Agent Tools ###
+CLAUDE.md
+.agents/
 .aider*
 
 ### Local Secrets ###
