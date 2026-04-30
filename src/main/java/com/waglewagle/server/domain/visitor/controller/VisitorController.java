@@ -36,7 +36,8 @@ public class VisitorController implements VisitorControllerDocs {
     @Override
     public ApiResponse<VisitorDTO.VisitorMeResponse> getMyStatus(
             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK,
+                visitorService.getVisitorStatus(userDetails.getUsername()));
     }
 
     @PostMapping("/festivals/{festivalId}/visitors/location")

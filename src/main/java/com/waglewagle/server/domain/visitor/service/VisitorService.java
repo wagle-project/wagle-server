@@ -40,14 +40,10 @@ public class VisitorService {
         );
     }
 
-    // 내 상태 확인용 방문자 조회
     public VisitorDTO.VisitorMeResponse getVisitorStatus(String uuid) {
         Visitor visitor = visitorRepository.findById(uuid)
                 .orElseThrow(() -> new GeneralException(USER_NOT_FOUND));
-
-        return new VisitorDTO.VisitorMeResponse(
-                visitor.getUuid(),
-                true
-        );
+        return VisitorDTO.VisitorMeResponse.from(visitor);
     }
+
 }
