@@ -26,12 +26,12 @@ public class TimeTableService {
             throw new GeneralException(GeneralErrorCode.UNAUTHORIZED);
         }
 
-        //festivalId에 맞는 TimeTable을 찾음(여러 개를 찾음)
-        List<TimeTable> timeTableList = timeTableRepository.findByFestivalId(festivalId);
+        //festivalId에 맞는 TimeTable을 찾고 sequence 기준으로 오름차순 정렬(여러 개를 찾음)
+        List<TimeTable> timeTableList = timeTableRepository.findByFestivalIdOrderBySequenceAsc(festivalId);
 
         //데이터가 없을 시 exception을 발생 시킴
         if (timeTableList.isEmpty()) {
-            throw new GeneralException(GeneralErrorCode.NOT_FOUND);
+            throw new GeneralException(GeneralErrorCode.TIMETABLE_NOT_FOUND);
         }
 
         //DTO로 변환 시킴

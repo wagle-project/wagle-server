@@ -29,9 +29,7 @@ public class TimeTableController implements TimeTableControllerDocs {
             @PathVariable Long festivalId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        List<TimeTableDTO.TimeTableInfo> result = timeTableService
-                .getTimeTalbes(festivalId, userDetails);
-
-        return ApiResponse.onListSuccess(GeneralSuccessCode.OK, result);
+        return ApiResponse.onListSuccess(GeneralSuccessCode.OK,
+                timeTableService.getTimeTalbes(festivalId, userDetails));
     }
 }

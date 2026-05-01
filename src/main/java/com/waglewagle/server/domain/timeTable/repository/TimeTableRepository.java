@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface TimeTableRepository extends JpaRepository<TimeTable, Long> {
 
-    List<TimeTable> findByFestivalId(Long festivalId);
+    List<TimeTable> findByFestivalIdOrderBySequenceAsc(Long festivalId);
 }
