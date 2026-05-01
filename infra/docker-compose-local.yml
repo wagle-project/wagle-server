@@ -7,7 +7,7 @@ services:
     container_name: wagle-mysql
     restart: always
     ports:
-      - "3306:3306"
+      - "13306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root  # application.yml 비밀번호랑 맞춰주세요!
       MYSQL_DATABASE: wagle      # 자동으로 생성될 DB 이름
@@ -15,8 +15,6 @@ services:
     command: # 한글 깨짐 방지 설정
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - ./db/mysql_data:/var/lib/mysql # 데이터가 날아가지 않게 로컬에 저장
 
   # 2. Redis (캐시 & 위치 저장)
   wagle-redis:
@@ -24,7 +22,4 @@ services:
     container_name: wagle-redis
     restart: always
     ports:
-      - "6379:6379"
-    command: redis-server --appendonly yes # 데이터 영구 저장 옵션
-    volumes:
-      - ./db/redis_data:/data
+      - "16379:6379"

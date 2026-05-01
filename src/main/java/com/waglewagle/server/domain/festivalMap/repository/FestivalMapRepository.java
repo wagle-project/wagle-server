@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface FestivalMapRepository extends JpaRepository<FestivalMap, Long> {
+    List<FestivalMap> findByFestivalId(Long festivalId);
+
     List<FestivalMap> findByFestivalIdOrderBySequenceAsc(Long festivalId);
 }

@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 public class Visitor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID) // UUID 자동 생성
     @Column(name = "uuid", columnDefinition = "VARCHAR(36)")
     private String uuid;
 
