@@ -46,7 +46,6 @@ jobs:
         with:
           host: ${{ vars.NCP_HOST }}
           username: ${{ secrets.NCP_USERNAME || 'root' }}
-          key: ${{ secrets.NCP_SSH_KEY }}
           password: ${{ secrets.NCP_PASSWORD }}
           script: mkdir -p /root/deploy
 
@@ -55,7 +54,6 @@ jobs:
         with:
           host: ${{ vars.NCP_HOST }}
           username: ${{ secrets.NCP_USERNAME || 'root' }}
-          key: ${{ secrets.NCP_SSH_KEY }}
           password: ${{ secrets.NCP_PASSWORD }}
           source: "infra/docker-compose.yml"
           target: /root/deploy
@@ -65,7 +63,6 @@ jobs:
         with:
           host: ${{ vars.NCP_HOST }}
           username: ${{ secrets.NCP_USERNAME || 'root' }}
-          key: ${{ secrets.NCP_SSH_KEY }}
           password: ${{ secrets.NCP_PASSWORD }}
           script: |
             cd /root/deploy

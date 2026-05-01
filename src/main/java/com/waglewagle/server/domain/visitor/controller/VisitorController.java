@@ -2,24 +2,33 @@ package com.waglewagle.server.domain.visitor.controller;
 
 import com.waglewagle.server.domain.visitor.dto.VisitorDTO;
 import com.waglewagle.server.domain.visitor.dto.VisitorLocationDTO;
+import com.waglewagle.server.domain.visitor.entity.Visitor;
+import com.waglewagle.server.domain.visitor.service.VisitorService;
 import com.waglewagle.server.global.apiPayload.ApiResponse;
 import com.waglewagle.server.global.apiPayload.code.GeneralSuccessCode;
+import com.waglewagle.server.global.apiPayload.exception.GeneralException;
 import com.waglewagle.server.global.security.userdetails.CustomUserDetails;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import static com.waglewagle.server.global.apiPayload.code.GeneralErrorCode.LOGIN_REQUIRED;
 
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class VisitorController implements VisitorControllerDocs {
+
+    private final VisitorService visitorService;
+
     @PostMapping("/visitors")
     @Override
     public ApiResponse<VisitorDTO.VisitorResponse> registerVisitor(
             @RequestBody VisitorDTO.VisitorRequest request) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, visitorService.registerVisitor(request));
     }
 
     @GetMapping("/visitors/me")
@@ -27,7 +36,8 @@ public class VisitorController implements VisitorControllerDocs {
     @Override
     public ApiResponse<VisitorDTO.VisitorMeResponse> getMyStatus(
             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK,
+                visitorService.getVisitorStatus(userDetails.getUsername()));
     }
 
     @PostMapping("/festivals/{festivalId}/visitors/location")
