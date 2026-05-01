@@ -3,6 +3,7 @@ package com.waglewagle.server.domain.festivalMap.controller;
 import com.waglewagle.server.domain.festivalMap.dto.FestivalMapDTO;
 import com.waglewagle.server.domain.festivalMap.dto.CongestionDTO;
 import com.waglewagle.server.domain.festivalMap.service.CongestionService;
+import com.waglewagle.server.domain.festivalMap.service.FestivalMapService;
 import com.waglewagle.server.global.apiPayload.ApiResponse;
 import com.waglewagle.server.global.apiPayload.code.GeneralSuccessCode;
 import com.waglewagle.server.global.apiPayload.dto.ListResponseDTO;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class FestivalMapController implements FestivalMapControllerDocs {
     final CongestionService congestionService;
+    private final FestivalMapService festivalMapService;
 
     @GetMapping("/festivals/{festivalId}/maps")
     @PreAuthorize("isAuthenticated()")
@@ -27,7 +29,8 @@ public class FestivalMapController implements FestivalMapControllerDocs {
     public ApiResponse<ListResponseDTO<FestivalMapDTO.FestivalMapInfo>> getFestivalMaps(
             @PathVariable Long festivalId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return ApiResponse.onListSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onListSuccess(GeneralSuccessCode.OK,
+                festivalMapService.getFestivalMaps(festivalId));
     }
 
     @GetMapping("/maps/{mapId}/congestion")
