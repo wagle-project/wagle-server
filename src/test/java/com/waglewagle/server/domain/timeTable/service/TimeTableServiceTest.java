@@ -83,7 +83,7 @@ class TimeTableServiceTest {
     }
 
     @Test
-    @DisplayName("타임테이블 조회: 데이터가 없을 때 NOT_FOUND 예외 발생")
+    @DisplayName("타임테이블 조회: 데이터가 없을 때 TIMETABLE_NOT_FOUND 예외 발생")
     void getTimeTables_NotFound() {
         // given
         Long festivalId = 1L;
@@ -97,6 +97,6 @@ class TimeTableServiceTest {
         GeneralException exception = assertThrows(GeneralException.class, () ->
                 timeTableService.getTimeTalbes(festivalId, userDetails)
         );
-        assertEquals(GeneralErrorCode.NOT_FOUND, exception.getCode());
+        assertEquals(GeneralErrorCode.TIMETABLE_NOT_FOUND, exception.getCode());
     }
 }
