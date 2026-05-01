@@ -27,6 +27,9 @@ public enum GeneralErrorCode implements BaseErrorCode{
     // FESTIVAL 관련 에러
     FESTIVAL_NOT_FOUND(HttpStatus.NOT_FOUND, "FESTIVAL4000", "해당 축제를 찾을 수 없습니다."),
 
+    // KEYWORD 관련 에러
+    KEYWORD_BAD_REQUEST(HttpStatus.BAD_REQUEST, "KEYWORD4000", "검색할 내용을 적어야 합니다."),
+
     // TIMETABLE 관련 에러
     TIMETABLE_NOT_FOUND(HttpStatus.NOT_FOUND, "TIMETABLE4000", "해당하는 축제 타임 테이블을 찾을 수 없습니다.");
 

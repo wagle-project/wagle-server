@@ -23,10 +23,8 @@ public class FestivalController implements FestivalControllerDocs {
     @GetMapping("/recommendations")
     @Override
     public ApiResponse<ListResponseDTO<FestivalDTO.FestivalSummary>> getRecommendedFestivals() {
-
-        List<FestivalDTO.FestivalSummary> result = festivalService.getRecommendedFestivals();
-
-        return ApiResponse.onListSuccess(GeneralSuccessCode.OK, result);
+        return ApiResponse.onListSuccess(GeneralSuccessCode.OK,
+                festivalService.getRecommendedFestivals());
     }
 
     @GetMapping("")
@@ -35,21 +33,15 @@ public class FestivalController implements FestivalControllerDocs {
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-
-        Page<FestivalDTO.FestivalSummary> result = festivalService
-                .getFastivals(keyword, page, size);
-
-        return ApiResponse.onPageSuccess(GeneralSuccessCode.OK, result);
+        return ApiResponse.onPageSuccess(GeneralSuccessCode.OK,
+                festivalService.getFastivals(keyword, page, size));
     }
 
     @GetMapping("/{festivalId}")
     @Override
     public ApiResponse<FestivalDTO.FestivalDetail> getFestivalDetail(
             @PathVariable Long festivalId) {
-
-        FestivalDTO.FestivalDetail result = festivalService
-                .getFestivalDetail(festivalId);
-
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK,
+                festivalService.getFestivalDetail(festivalId));
     }
 }

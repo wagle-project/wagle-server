@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -24,28 +25,36 @@ public class FestivalService {
 
     public List<FestivalDTO.FestivalSummary> getRecommendedFestivals() {
 
+        int targetSize = 5;
+        List<Festival> resultFestivals = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
-        Pageable pageable = PageRequest.of(0, 5);
 
-        // 1. 진행 중인 축제 확인
-        List<Festival> ongoing = festivalRepository.findOngoing(now, pageable);
-        if (!ongoing.isEmpty()) {
-            return ongoing.stream().map(FestivalDTO.FestivalSummary::from).toList();
+        // 1. 진행 중인 축제 확인 (시작 날짜 최신순)
+        List<Festival> ongoing = festivalRepository.findOngoing(now, PageRequest.of(0, targetSize));
+        resultFestivals.addAll(ongoing);
+
+        // 2. 부족한 경우 예정된 축제 추가 (시작 날짜 가장 가까운 순)
+        if (resultFestivals.size() < targetSize) {
+            int remain = targetSize - resultFestivals.size();
+            List<Festival> upcoming = festivalRepository.findUpcoming(now, PageRequest.of(0, remain));
+            resultFestivals.addAll(upcoming);
         }
 
-        // 2. 예정된 축제 확인
-        List<Festival> upcoming = festivalRepository.findUpcoming(now, pageable);
-        if (!upcoming.isEmpty()) {
-            return upcoming.stream().map(FestivalDTO.FestivalSummary::from).toList();
+        // 3. 여전히 부족한 경우 지난 축제 추가 (종료 날짜 가장 가까운 순)
+        if (resultFestivals.size() < targetSize) {
+            int remain = targetSize - resultFestivals.size();
+            List<Festival> end = festivalRepository.findEnd(now, PageRequest.of(0, remain));
+            resultFestivals.addAll(end);
         }
 
-        // 3. 지난 축제 확인
-        List<Festival> end = festivalRepository.findEnd(now, pageable);
-        if (!end.isEmpty()) {
-            return end.stream().map(FestivalDTO.FestivalSummary::from).toList();
+        // 결과가 하나도 없는 경우에만 예외 발생
+        if (resultFestivals.isEmpty()) {
+            throw new GeneralException(GeneralErrorCode.FESTIVAL_NOT_FOUND);
         }
 
-        throw new GeneralException(GeneralErrorCode.NOT_FOUND);
+        return resultFestivals.stream()
+                .map(FestivalDTO.FestivalSummary::from)
+                .toList();
 
         //개최중인 것 중에 시작 날짜가 제일 최신인 거
         //혹시 개최 중인 축제가 없으면 개최 준비 중 중에 시작 날짜가 제일 가까운 거
@@ -63,17 +72,20 @@ public class FestivalService {
 
         //slice도 고려(pageResponseDTO 변경 해야 함, 프론트와 백과 의논) -> 데이터가 많을 시 유리
 
+        //keyword가 null일 경우 어떻게 하는가?(백, 프론트와 의논)
+        if(keyword == null || keyword.isEmpty()) {
+            throw new GeneralException(GeneralErrorCode.KEYWORD_BAD_REQUEST);
+        }
+
         //페이징 정보를 담기 사용(page 사용을 위해 필수)
         Pageable pageable = PageRequest.of(page, size);
-
-        //keyword가 null일 경우 어떻게 하는가?(백, 프론트와 의논)
 
         //데이터를 page 형식으로 찾음, keyword가 축제 이름에 들어가는 걸 찾음
         Page<Festival> festivalPage = festivalRepository.findByNameContaining(keyword, pageable);
 
         //데이터가 없을 시 exception을 발생 시킴
         if (festivalPage.isEmpty()) {
-            throw new GeneralException(GeneralErrorCode.NOT_FOUND);
+            throw new GeneralException(GeneralErrorCode.FESTIVAL_NOT_FOUND);
         }
 
         //DTO로 변환
@@ -88,7 +100,7 @@ public class FestivalService {
 
         //값이 없을 시 Exception발생 시키고 값이 있으면 Optional 해제
         Festival festival = festivalOptional.orElseThrow(() ->
-                new GeneralException(GeneralErrorCode.NOT_FOUND));
+                new GeneralException(GeneralErrorCode.FESTIVAL_NOT_FOUND));
 
         //DTO로 변환시키고 반환
         return FestivalDTO.FestivalDetail.from(festival);
