@@ -20,6 +20,9 @@ public class FestivalMap {
     @JoinColumn(name = "festival_id", nullable = false)
     private Festival festival;
 
+    @Column(nullable = false, length = 100)
+    private String name;
+
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
