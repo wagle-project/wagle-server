@@ -2,21 +2,15 @@ package com.waglewagle.server.domain.visitor.controller;
 
 import com.waglewagle.server.domain.visitor.dto.VisitorDTO;
 import com.waglewagle.server.domain.visitor.dto.VisitorLocationDTO;
-import com.waglewagle.server.domain.visitor.entity.Visitor;
-import com.waglewagle.server.domain.visitor.repository.VisitorLocationService;
-import com.waglewagle.server.domain.visitor.repository.VisitorRepository;
+import com.waglewagle.server.domain.visitor.service.VisitorLocationService;
 import com.waglewagle.server.domain.visitor.service.VisitorService;
 import com.waglewagle.server.global.apiPayload.ApiResponse;
 import com.waglewagle.server.global.apiPayload.code.GeneralSuccessCode;
-import com.waglewagle.server.global.apiPayload.exception.GeneralException;
 import com.waglewagle.server.global.security.userdetails.CustomUserDetails;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import static com.waglewagle.server.global.apiPayload.code.GeneralErrorCode.LOGIN_REQUIRED;
 
 
 @RestController

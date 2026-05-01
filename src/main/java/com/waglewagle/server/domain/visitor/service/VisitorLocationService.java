@@ -1,4 +1,4 @@
-package com.waglewagle.server.domain.visitor.repository;
+package com.waglewagle.server.domain.visitor.service;
 
 import com.uber.h3core.H3Core;
 import com.waglewagle.server.domain.festivalMap.entity.FestivalMap;
@@ -33,10 +33,8 @@ public class VisitorLocationService {
         double lat = request.lat();
         double lng = request.lng();
 
-        // 1. 축제에 속한 맵 목록 조회
         List<FestivalMap> maps = festivalMapRepository.findByFestivalId(festivalId);
 
-        // 2. 현재 좌표가 속하는 맵 탐색 (직사각형 바운딩 박스 기준)
         FestivalMap currentMap = maps.stream()
                 .filter(m -> isInsideMap(m, lat, lng))
                 .findFirst()
@@ -44,23 +42,16 @@ public class VisitorLocationService {
 
         boolean isInside = currentMap != null;
         Long currentMapId = isInside ? currentMap.getId() : null;
-        String h3Index = isInside ? h3.latLngToCellAddress(lat, lng, H3_RESOLUTION) : null;
 
-        // 3. 이전 위치 Redis에서 조회 후 카운트 감소
-        locationRedisRepository.getVisitorLocation(uuid).ifPresent(prev -> {
-            String[] parts = prev.split(":");
-            if (parts.length == 2) {
-                Long prevMapId = Long.parseLong(parts[0]);
-                String prevH3 = parts[1];
-                locationRedisRepository.decrementCell(prevMapId, prevH3);
-            }
-        });
-
-        // 4. 현재 위치 저장 및 카운트 증가
         if (isInside) {
+            // H3 인덱스 생성
+            String h3Index = h3.latLngToCellAddress(lat, lng, H3_RESOLUTION);
+
+            // 핵심: 그냥 저장만 함. 30초 TTL이 알아서 갱신됨.
+            // 이전 위치를 찾아 뺄 필요가 없음! (다음 집계 때 자동으로 반영됨)
             locationRedisRepository.saveVisitorLocation(uuid, currentMapId, h3Index);
-            locationRedisRepository.incrementCell(currentMapId, h3Index);
         } else {
+            // 구역 밖이면 세션 삭제
             locationRedisRepository.deleteVisitorLocation(uuid);
         }
 
