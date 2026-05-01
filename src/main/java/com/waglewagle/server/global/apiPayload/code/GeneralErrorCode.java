@@ -19,7 +19,10 @@ public enum GeneralErrorCode implements BaseErrorCode{
     LOGIN_REQUIRED(HttpStatus.UNAUTHORIZED, "AUTH4000", "로그인이 필요한 기능입니다."),
 
     // USER 관련 에러
-    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4000", "해당하는 사용자가 존재하지 않습니다.");
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4000", "해당하는 사용자가 존재하지 않습니다."),
+
+    // MAP 관련 에러
+    MAP_NOT_FOUND(HttpStatus.BAD_REQUEST, "MAP4000", "해당하는 축제 지도가 존재하지 않습니다.");
 
     private final HttpStatus status;
     private final String code;
