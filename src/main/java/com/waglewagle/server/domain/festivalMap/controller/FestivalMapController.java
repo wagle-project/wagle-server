@@ -29,7 +29,8 @@ public class FestivalMapController implements FestivalMapControllerDocs {
     public ApiResponse<ListResponseDTO<FestivalMapDTO.FestivalMapInfo>> getFestivalMaps(
             @PathVariable Long festivalId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return ApiResponse.onListSuccess(GeneralSuccessCode.OK, festivalMapService.getFestivalMaps(festivalId));
+        return ApiResponse.onListSuccess(GeneralSuccessCode.OK,
+                festivalMapService.getFestivalMaps(festivalId));
     }
 
     @GetMapping("/maps/{mapId}/congestion")
