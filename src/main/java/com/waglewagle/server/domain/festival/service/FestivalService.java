@@ -45,7 +45,7 @@ public class FestivalService {
             return end.stream().map(FestivalDTO.FestivalSummary::from).toList();
         }
 
-        return Collections.emptyList();
+        throw new GeneralException(GeneralErrorCode.NOT_FOUND);
 
         //개최중인 것 중에 시작 날짜가 제일 최신인 거
         //혹시 개최 중인 축제가 없으면 개최 준비 중 중에 시작 날짜가 제일 가까운 거
