@@ -1,18 +1,57 @@
+version: '3.8'
+
 services:
-  # 1. DB 컨테이너 (MySQL)
-  db:
+  # 1. App (Spring Boot)
+  wagle-app:
+    image: ${DOCKERHUB_USERNAME}/wagle-server:latest
+    container_name: wagle-app
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=wagle-redis
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+    depends_on:
+      - wagle-redis
+    networks:
+      - wagle-network
+
+  # 2. MySQL (데이터베이스)
+  wagle-db:
     image: mysql:8.0
-    container_name: mysql-server
+    container_name: wagle-mysql
     restart: always
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_DATABASE: wagle
+      TZ: Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./mysql_data:/var/lib/mysql
+      - ./db/mysql_data:/var/lib/mysql
+    networks:
+      - wagle-network
 
-  # 2. 사진 서빙용 컨테이너 (Nginx)
+  # 3. Redis (캐시 & 위치 저장)
+  wagle-redis:
+    image: redis:alpine
+    container_name: wagle-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - ./db/redis_data:/data
+    networks:
+      - wagle-network
+
+  # 4. Nginx (사진 서빙)
   nginx-storage:
     image: nginx:latest
     container_name: nginx-storage
@@ -21,3 +60,9 @@ services:
       - "80:80"
     volumes:
       - ./images:/usr/share/nginx/html
+    networks:
+      - wagle-network
+
+networks:
+  wagle-network:
+    driver: bridge

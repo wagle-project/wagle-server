@@ -8,9 +8,29 @@ RUN_ID=$1
 FAIL_COUNT=$2
 MODEL_TIER=$3
 
+# 파일 기반 카운터 (브랜치명/AI 성공 여부와 무관하게 독립적으로 누적)
+COUNTER_FILE="/tmp/wagle_ai_fix_count"
+MAX_RETRIES=5
+
+if [ -f "$COUNTER_FILE" ]; then
+  CURRENT_COUNT=$(cat "$COUNTER_FILE")
+else
+  CURRENT_COUNT=0
+fi
+
+CURRENT_COUNT=$((CURRENT_COUNT + 1))
+echo "$CURRENT_COUNT" > "$COUNTER_FILE"
+
 echo "====================================="
-echo "[AI Fix Triggered] Run ID: $RUN_ID | Retry: $FAIL_COUNT | Model: $MODEL_TIER"
+echo "[AI Fix Triggered] Run ID: $RUN_ID | Retry: $FAIL_COUNT | Model: $MODEL_TIER | 누적 시도: $CURRENT_COUNT/$MAX_RETRIES"
 echo "====================================="
+
+# 파일 카운터 기준 최대 재시도 초과 시 강제 중단 (AI API 실패 포함 모든 실패 케이스 대응)
+if [ "$CURRENT_COUNT" -gt "$MAX_RETRIES" ]; then
+  echo "🚨 [강제 중단] ${MAX_RETRIES}회 연속 복구 실패 (API 크레딧 소진 등 포함). 휴먼 개입이 필요합니다."
+  rm -f "$COUNTER_FILE"
+  exit 2
+fi
 
 cd "$PROJECT_DIR" || exit 1
 
@@ -64,8 +84,16 @@ PROMPT_FILE="$PROJECT_DIR/.tmp_ai_prompt_${RUN_ID}.txt"
 echo "$PROMPT" > "$PROMPT_FILE"
 
 echo ">> AI 에이전트를 실행합니다..."
-# 실제 AI 로컬 명령어 구동 (프롬프트 내용을 문자열 인자로 전달)
 $AI_CLI_COMMAND "$(cat "$PROMPT_FILE")"
+AI_EXIT_CODE=$?
 
 rm "$PROMPT_FILE"
-echo ">> AI 에이전트 실행이 완료되었습니다."
+
+if [ $AI_EXIT_CODE -ne 0 ]; then
+  echo "❌ AI 에이전트 실행 실패 (exit code: $AI_EXIT_CODE). 카운터 유지 후 종료합니다."
+  exit 1
+fi
+
+# AI 성공 시 카운터 리셋
+rm -f "$COUNTER_FILE"
+echo "✅ AI 에이전트 실행 완료. 카운터를 리셋합니다."

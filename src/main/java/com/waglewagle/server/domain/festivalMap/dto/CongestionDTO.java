@@ -12,7 +12,6 @@ public class CongestionDTO {
 
             @Schema(description = "해당 지도 내 총 방문자 수", example = "540")
             int totalCount,
-
             @Schema(description = "H3 육각형 구역별 혼잡도 목록")
             List<ZoneInfo> zones
     ) {}
