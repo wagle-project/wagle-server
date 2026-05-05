@@ -43,8 +43,8 @@ class VisitorLocationServiceTest {
         festival = Festival.builder()
                 .id(1L)
                 .name("테스트 축제")
-                .startDate(LocalDateTime.now().minusDays(1))
-                .endDate(LocalDateTime.now().plusDays(1))
+                .startAt(LocalDateTime.now().minusDays(1))
+                .endAt(LocalDateTime.now().plusDays(1))
                 .build();
 
         festivalMap = FestivalMap.builder()

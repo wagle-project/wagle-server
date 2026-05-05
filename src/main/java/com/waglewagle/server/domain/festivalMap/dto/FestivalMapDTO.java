@@ -22,7 +22,7 @@ public class FestivalMapDTO {
             return new FestivalMapInfo(
                     entity.getSequence(),
                     entity.getId(),
-                    entity.getImageUrl(),
+                    entity.getMapImageUrl(),
                     new MapBounds(
                             new LatLng(entity.getSouthWestLat(), entity.getSouthWestLon()),
                             new LatLng(entity.getNorthEastLat(), entity.getNorthEastLon())

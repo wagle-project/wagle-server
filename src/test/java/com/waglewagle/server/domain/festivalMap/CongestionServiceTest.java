@@ -40,7 +40,7 @@ class CongestionServiceTest {
     void setUp() {
         festivalMap = FestivalMap.builder()
                 .id(7L)
-                .imageUrl("https://example.com/map.png")
+                .mapImageUrl("https://example.com/map.png")
                 .sequence(1)
                 .southWestLat(35.8300)
                 .southWestLon(128.7550)

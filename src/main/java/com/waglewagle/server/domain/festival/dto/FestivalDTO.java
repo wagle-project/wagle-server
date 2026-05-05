@@ -41,8 +41,8 @@ public class FestivalDTO {
             return new FestivalSummary(
                     festival.getId(),
                     festival.getName(),
-                    festival.getPosterUrl(),
-                    calculateStatus(festival.getStartDate(), festival.getEndDate()),
+                    festival.getPosterImageUrl(),
+                    calculateStatus(festival.getStartAt(), festival.getEndAt()),
                     festival.getPlaceName()
             );
         }
@@ -82,9 +82,9 @@ public class FestivalDTO {
                     festival.getId(),
                     festival.getName(),
                     festival.getDescription(),
-                    festival.getPosterUrl(),
-                    festival.getStartDate(),
-                    festival.getEndDate(),
+                    festival.getPosterImageUrl(),
+                    festival.getStartAt(),
+                    festival.getEndAt(),
                     festival.getPlaceName(),
                     festival.getAddress()
             );
