@@ -28,10 +28,10 @@ public class Festival {
     @Column(name = "poster_image_url")
     private String posterImageUrl;
 
-    @Column(name = "start_at", nullable = false)
+    @Column(name = "start_at", nullable = false, columnDefinition = "DATETIME")
     private LocalDateTime startAt;
 
-    @Column(name = "end_at", nullable = false)
+    @Column(name = "end_at", nullable = false, columnDefinition = "DATETIME")
     private LocalDateTime endAt;
 
     @Column(name = "place_name", nullable = false)
