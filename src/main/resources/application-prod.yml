@@ -1,6 +1,9 @@
 spring:
   application:
     name: wagle-server
+  sql:
+    init:
+      mode: never
   datasource:
     # 1. DB 주소: 프라이빗 서버의 비공개 IP를 도커가 주입해줄 수 있도록 설정
     url: jdbc:mysql://${DB_HOST}:3306/waglewagle?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
