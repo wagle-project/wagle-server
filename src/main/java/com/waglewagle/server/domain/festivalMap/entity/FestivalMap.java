@@ -23,8 +23,8 @@ public class FestivalMap {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(name = "image_url", nullable = false)
-    private String imageUrl;
+    @Column(name = "map_image_url", nullable = false)
+    private String mapImageUrl;
 
     @Column(nullable = false)
     private Integer sequence; // 노출 순서

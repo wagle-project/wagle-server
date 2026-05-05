@@ -39,9 +39,9 @@ class FestivalServiceTest {
         return Festival.builder()
                 .id(id)
                 .name(name)
-                .startDate(start)
-                .endDate(end)
-                .posterUrl("url")
+                .startAt(start)
+                .endAt(end)
+                .posterImageUrl("url")
                 .placeName("place")
                 .build();
     }
