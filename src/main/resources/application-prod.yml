@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update # 초기 운영 환경이므로 update로 설정
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: false # 운영 환경에서 로그 부하를 줄이기 위해 false로 설정
@@ -21,6 +21,7 @@ spring:
       # 2. Redis 주소
       host: ${REDIS_HOST}
       port: 6379
+      password: ${REDIS_PASSWORD}
 
 jwt:
   token:
@@ -40,3 +41,6 @@ springdoc:
 
 server:
   forward-headers-strategy: framework
+
+cors:
+  allowed-origins: http://localhost:3000,https://wagle-client.vercel.app

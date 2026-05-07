@@ -22,3 +22,6 @@ jwt:
     secret-key: test-secret-key-must-be-very-long-and-secure-enough
     expiration:
       access: 604800000
+
+cors:
+  allowed-origins: http://localhost:3000
