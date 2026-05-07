@@ -44,7 +44,6 @@ public interface TimeTableControllerDocs {
             )
     })
     @GetMapping("/{festivalId}/timetables")
-    @PreAuthorize("isAuthenticated()")
     ApiResponse<ListResponseDTO<TimeTableDTO.TimeTableInfo>> getTimeTables(
             @PathVariable Long festivalId,
             @AuthenticationPrincipal CustomUserDetails userDetails);
