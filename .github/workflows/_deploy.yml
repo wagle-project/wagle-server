@@ -75,3 +75,4 @@ jobs:
             docker pull ${{ vars.DOCKERHUB_USERNAME }}/wagle-server:latest
             docker compose -f infra/docker-compose.yml -p wagle-server up -d --no-deps --force-recreate wagle-app
             docker network connect wagle-server_wagle-network wagle-nginx || true
+            docker network connect wagle-server_wagle-network wagle-redis || true
