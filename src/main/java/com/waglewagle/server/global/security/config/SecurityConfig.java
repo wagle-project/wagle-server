@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Value("${cors.allowed-origins}")
+    @Value("#{'${cors.allowed-origins}'.split(',')}")
     private List<String> allowedOrigins;
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
