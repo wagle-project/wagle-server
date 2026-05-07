@@ -34,7 +34,7 @@ public class FestivalController implements FestivalControllerDocs {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ApiResponse.onPageSuccess(GeneralSuccessCode.OK,
-                festivalService.getFastivals(keyword, page, size));
+                festivalService.getFestivals(keyword, page, size));
     }
 
     @GetMapping("/{festivalId}")
