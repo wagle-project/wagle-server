@@ -67,7 +67,7 @@ public class FestivalService {
         // -> 데이터 수가 적고 사용자가 적을 시 사용하면 유리
     }
 
-    public Page<FestivalDTO.FestivalSummary> getFastivals(
+    public Page<FestivalDTO.FestivalSummary> getFestivals(
             String keyword, int page, int size) {
 
         //slice도 고려(pageResponseDTO 변경 해야 함, 프론트와 백과 의논) -> 데이터가 많을 시 유리

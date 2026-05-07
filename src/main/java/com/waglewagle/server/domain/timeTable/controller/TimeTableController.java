@@ -23,12 +23,11 @@ public class TimeTableController implements TimeTableControllerDocs {
     private final TimeTableService  timeTableService;
 
     @GetMapping("/{festivalId}/timetables")
-    @PreAuthorize("isAuthenticated()")
     @Override
     public ApiResponse<ListResponseDTO<TimeTableDTO.TimeTableInfo>> getTimeTables(
             @PathVariable Long festivalId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ApiResponse.onListSuccess(GeneralSuccessCode.OK,
-                timeTableService.getTimeTalbes(festivalId, userDetails));
+                timeTableService.getTimeTalbes(festivalId));
     }
 }
