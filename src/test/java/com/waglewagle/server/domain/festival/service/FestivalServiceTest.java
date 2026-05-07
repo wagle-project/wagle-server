@@ -115,7 +115,7 @@ class FestivalServiceTest {
                 .thenReturn(page);
 
         // when
-        Page<FestivalDTO.FestivalSummary> result = festivalService.getFastivals("김밥", 0, 5);
+        Page<FestivalDTO.FestivalSummary> result = festivalService.getFestivals("김밥", 0, 5);
 
         // then
         assertEquals(1, result.getTotalElements());
