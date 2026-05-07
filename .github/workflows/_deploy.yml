@@ -72,6 +72,7 @@ jobs:
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
             export REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+            export SPRING_PROFILES_ACTIVE=${{ inputs.environment == 'staging' && 'prod,staging' || 'prod' }}
             docker image prune -af
             docker pull ${{ vars.DOCKERHUB_USERNAME }}/wagle-server:latest
             docker compose -f infra/docker-compose.yml -p wagle-server up -d --no-deps --force-recreate wagle-app
