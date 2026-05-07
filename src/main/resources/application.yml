@@ -26,3 +26,6 @@ jwt:
     secret-key: ${JWT_SECRET_KEY:waglewagle-secret-key-must-be-very-long-and-secure-enough}
     expiration:
       access: 604800000
+
+cors:
+  allowed-origins: http://localhost:3000,https://wagle-client.vercel.app,http://172.30.1.73:3000

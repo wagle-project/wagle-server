@@ -5,6 +5,7 @@ import com.waglewagle.server.global.security.jwt.JwtFilter;
 import com.waglewagle.server.global.security.jwt.JwtUtil;
 import com.waglewagle.server.global.security.userdetails.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -18,7 +19,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -26,6 +26,9 @@ import java.util.List;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    @Value("${cors.allowed-origins}")
+    private List<String> allowedOrigins;
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final JwtUtil jwtUtil;
@@ -74,11 +77,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // 허용할 프론트엔드 도메인
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000",
-                "https://wagle-client.vercel.app"
-        ));
+        configuration.setAllowedOrigins(allowedOrigins);
 
         // 허용할 HTTP 메서드 (GET, POST 등)
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
