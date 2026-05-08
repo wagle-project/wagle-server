@@ -6,9 +6,6 @@ import java.time.LocalDateTime;
 
 public class FestivalDTO {
 
-    /**
-     * 축제 기간을 바탕으로 상태를 판별하는 도메인 로직입니다.
-     */
     private static String calculateStatus(LocalDateTime start, LocalDateTime end) {
         LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(start)) return "UPCOMING";
@@ -31,19 +28,23 @@ public class FestivalDTO {
             String status,
 
             @Schema(description = "축제 대표 장소/랜드마크", example = "김천 사명대사공원")
-            String placeName
+            String placeName,
+
+            @Schema(description = "축제 시작 일시", example = "2025-09-27T08:00:00")
+            LocalDateTime startDate,
+
+            @Schema(description = "축제 종료 일시", example = "2025-10-15T22:00:00")
+            LocalDateTime endDate
     ) {
-        /**
-         * Entity -> DTO 변환 Mapper
-         * 현재 시간을 기준으로 축제의 진행 상태를 계산하여 매핑합니다. [cite: 10]
-         */
         public static FestivalSummary from(Festival festival) {
             return new FestivalSummary(
                     festival.getId(),
                     festival.getName(),
                     festival.getPosterImageUrl(),
-                    calculateStatus(festival.getStartAt(), festival.getEndAt()),
-                    festival.getPlaceName()
+                    calculateStatus(festival.getStartDate(), festival.getEndDate()),
+                    festival.getPlaceName(),
+                    festival.getStartDate(),
+                    festival.getEndDate()
             );
         }
     }
@@ -74,17 +75,14 @@ public class FestivalDTO {
             @Schema(description = "상세 주소", example = "경상북도 김천시 대항면")
             String address
     ) {
-        /**
-         * Entity -> Detail DTO 변환 Mapper
-         */
         public static FestivalDetail from(Festival festival) {
             return new FestivalDetail(
                     festival.getId(),
                     festival.getName(),
                     festival.getDescription(),
                     festival.getPosterImageUrl(),
-                    festival.getStartAt(),
-                    festival.getEndAt(),
+                    festival.getStartDate(),
+                    festival.getEndDate(),
                     festival.getPlaceName(),
                     festival.getAddress()
             );

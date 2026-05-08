@@ -29,10 +29,10 @@ public class Festival {
     private String posterImageUrl;
 
     @Column(name = "start_at", nullable = false, columnDefinition = "DATETIME")
-    private LocalDateTime startAt;
+    private LocalDateTime startDate;
 
     @Column(name = "end_at", nullable = false, columnDefinition = "DATETIME")
-    private LocalDateTime endAt;
+    private LocalDateTime endDate;
 
     @Column(name = "place_name", nullable = false)
     private String placeName;
