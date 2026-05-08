@@ -2,6 +2,7 @@ package com.waglewagle.server.domain.festival.dto;
 
 import com.waglewagle.server.domain.festival.entity.Festival;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class FestivalDTO {
@@ -30,11 +31,11 @@ public class FestivalDTO {
             @Schema(description = "축제 대표 장소/랜드마크", example = "김천 사명대사공원")
             String placeName,
 
-            @Schema(description = "축제 시작 일시", example = "2025-09-27T08:00:00")
-            LocalDateTime startDate,
+            @Schema(description = "축제 시작일", example = "2025-09-27")
+            LocalDate startDate,
 
-            @Schema(description = "축제 종료 일시", example = "2025-10-15T22:00:00")
-            LocalDateTime endDate
+            @Schema(description = "축제 종료일", example = "2025-10-15")
+            LocalDate endDate
     ) {
         public static FestivalSummary from(Festival festival) {
             return new FestivalSummary(
@@ -43,8 +44,8 @@ public class FestivalDTO {
                     festival.getPosterImageUrl(),
                     calculateStatus(festival.getStartDate(), festival.getEndDate()),
                     festival.getPlaceName(),
-                    festival.getStartDate(),
-                    festival.getEndDate()
+                    festival.getStartDate().toLocalDate(),
+                    festival.getEndDate().toLocalDate()
             );
         }
     }
@@ -63,11 +64,11 @@ public class FestivalDTO {
             @Schema(description = "S3 포스터 이미지 URL", example = "https://s3.ap-northeast-2.amazonaws.com/festivals/poster1.jpg")
             String posterUrl,
 
-            @Schema(description = "축제 시작 일시", example = "2025-09-27T08:00:00")
-            LocalDateTime startDate,
+            @Schema(description = "축제 시작일", example = "2025-09-27")
+            LocalDate startDate,
 
-            @Schema(description = "축제 종료 일시", example = "2025-10-15T22:00:00")
-            LocalDateTime endDate,
+            @Schema(description = "축제 종료일", example = "2025-10-15")
+            LocalDate endDate,
 
             @Schema(description = "대표 장소 명칭", example = "김천 사명대사공원")
             String placeName,
@@ -81,8 +82,8 @@ public class FestivalDTO {
                     festival.getName(),
                     festival.getDescription(),
                     festival.getPosterImageUrl(),
-                    festival.getStartDate(),
-                    festival.getEndDate(),
+                    festival.getStartDate().toLocalDate(),
+                    festival.getEndDate().toLocalDate(),
                     festival.getPlaceName(),
                     festival.getAddress()
             );
