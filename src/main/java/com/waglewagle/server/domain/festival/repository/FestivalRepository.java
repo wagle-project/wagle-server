@@ -15,15 +15,15 @@ public interface FestivalRepository  extends JpaRepository<Festival, Long> {
     Page<Festival> findByNameContaining(String keyword, Pageable pageable);
 
     // 1순위: 개최 중 (시작일 <= 현재 <= 종료일) 중 시작일 최신순
-    @Query("SELECT f FROM Festival f WHERE f.startAt <= :now AND f.endAt >= :now ORDER BY f.startAt DESC")
+    @Query("SELECT f FROM Festival f WHERE f.startDate <= :now AND f.endDate >= :now ORDER BY f.startDate DESC")
     List<Festival> findOngoing(@Param("now") LocalDateTime now, Pageable pageable);
 
     // 2순위: 개최 예정 (현재 < 시작일) 중 시작일 제일 가까운 순
-    @Query("SELECT f FROM Festival f WHERE f.startAt > :now ORDER BY f.startAt ASC")
+    @Query("SELECT f FROM Festival f WHERE f.startDate > :now ORDER BY f.startDate ASC")
     List<Festival> findUpcoming(@Param("now") LocalDateTime now, Pageable pageable);
 
     // 3순위: 이미 종료 (종료일 < 현재) 중 종료일 제일 가까운 순
-    @Query("SELECT f FROM Festival f WHERE f.endAt < :now ORDER BY f.endAt DESC")
+    @Query("SELECT f FROM Festival f WHERE f.endDate < :now ORDER BY f.endDate DESC")
     List<Festival> findEnd(@Param("now") LocalDateTime now, Pageable pageable);
 
 }
