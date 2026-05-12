@@ -24,7 +24,7 @@ public class CongestionDTO {
             @Schema(description = "구역 내 인원 수 (디버깅/상세용)", example = "15")
             int count,
 
-            @Schema(description = "혼잡도 레벨 (0:쾌적, 1:보통, 2:혼잡, 3:매우혼잡)", example = "2")
+            @Schema(description = "혼잡도 레벨 (0:쾌적, 1:보통, 2:혼잡, 3:매우혼잡)", example = "1")
             int level
     ) {}
 }

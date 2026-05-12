@@ -57,10 +57,10 @@ class CongestionServiceTest {
                 .willReturn(Optional.of(festivalMap));
         given(locationRedisRepository.getCellCounts(7L))
                 .willReturn(Map.of(
-                        "cell_A", 3,   // level 1 (1~5명)
-                        "cell_B", 10,  // level 2 (6~15명)
-                        "cell_C", 20,  // level 3 (16~30명)
-                        "cell_D", 35   // level 4 (31명 이상)
+                        "cell_A", 3,   // level 0 (0~5명)
+                        "cell_B", 10,  // level 1 (6~15명)
+                        "cell_C", 20,  // level 2 (16~30명)
+                        "cell_D", 35   // level 3 (31명 이상)
                 ));
 
         // when
@@ -76,10 +76,10 @@ class CongestionServiceTest {
                         CongestionDTO.ZoneInfo::level
                 ));
 
-        assertThat(levelMap.get("cell_A")).isEqualTo(1);
-        assertThat(levelMap.get("cell_B")).isEqualTo(2);
-        assertThat(levelMap.get("cell_C")).isEqualTo(3);
-        assertThat(levelMap.get("cell_D")).isEqualTo(4);
+        assertThat(levelMap.get("cell_A")).isEqualTo(0);
+        assertThat(levelMap.get("cell_B")).isEqualTo(1);
+        assertThat(levelMap.get("cell_C")).isEqualTo(2);
+        assertThat(levelMap.get("cell_D")).isEqualTo(3);
     }
 
     @Test
@@ -137,11 +137,11 @@ class CongestionServiceTest {
                         CongestionDTO.ZoneInfo::level
                 ));
 
-        assertThat(levelMap.get("cell_1")).isEqualTo(1);
-        assertThat(levelMap.get("cell_2")).isEqualTo(2);
-        assertThat(levelMap.get("cell_3")).isEqualTo(2);
-        assertThat(levelMap.get("cell_4")).isEqualTo(3);
-        assertThat(levelMap.get("cell_5")).isEqualTo(3);
-        assertThat(levelMap.get("cell_6")).isEqualTo(4);
+        assertThat(levelMap.get("cell_1")).isEqualTo(0);
+        assertThat(levelMap.get("cell_2")).isEqualTo(1);
+        assertThat(levelMap.get("cell_3")).isEqualTo(1);
+        assertThat(levelMap.get("cell_4")).isEqualTo(2);
+        assertThat(levelMap.get("cell_5")).isEqualTo(2);
+        assertThat(levelMap.get("cell_6")).isEqualTo(3);
     }
 }
