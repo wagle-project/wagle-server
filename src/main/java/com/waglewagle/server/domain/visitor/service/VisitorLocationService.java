@@ -18,7 +18,7 @@ public class VisitorLocationService {
     private final LocationRedisRepository locationRedisRepository;
 
     private static final H3Core h3 = createH3();
-    private static final int H3_RESOLUTION = 14;
+    private static final int H3_RESOLUTION = 13;
     private static final long LOCATION_UPDATE_INTERVAL = 3000L;
 
     private static H3Core createH3() {
