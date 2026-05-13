@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class LocationRedisRepository {
 
     private final StringRedisTemplate redisTemplate;
-    private static final Duration VISITOR_TTL = Duration.ofSeconds(30);
+    private static final Duration VISITOR_TTL = Duration.ofMinutes(2);
     private static final String VISITOR_KEY_PREFIX = "visitor:";
     private static final String VISITOR_KEY = "visitor:%s:location";
 
