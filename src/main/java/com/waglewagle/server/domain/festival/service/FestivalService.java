@@ -73,15 +73,15 @@ public class FestivalService {
         //slice도 고려(pageResponseDTO 변경 해야 함, 프론트와 백과 의논) -> 데이터가 많을 시 유리
 
         //keyword가 null일 경우 어떻게 하는가?(백, 프론트와 의논)
-        if(keyword == null || keyword.isEmpty()) {
+        if(keyword == null || keyword.trim().isEmpty()) {
             throw new GeneralException(GeneralErrorCode.KEYWORD_BAD_REQUEST);
         }
 
         //페이징 정보를 담기 사용(page 사용을 위해 필수)
         Pageable pageable = PageRequest.of(page, size);
 
-        //데이터를 page 형식으로 찾음, keyword가 축제 이름에 들어가는 걸 찾음
-        Page<Festival> festivalPage = festivalRepository.findByNameContaining(keyword, pageable);
+        //데이터를 page 형식으로 찾음, keyword가 축제 이름과 장소에 들어가는 걸 찾음
+        Page<Festival> festivalPage = festivalRepository.searchByKeyword(keyword, pageable);
 
         //데이터가 없을 시 exception을 발생 시킴
         if (festivalPage.isEmpty()) {

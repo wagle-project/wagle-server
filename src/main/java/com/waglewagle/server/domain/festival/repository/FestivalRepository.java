@@ -12,6 +12,9 @@ import java.util.List;
 
 public interface FestivalRepository  extends JpaRepository<Festival, Long> {
 
+    @Query("SELECT DISTINCT f FROM Festival f WHERE LOWER(f.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(f.placeName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    Page<Festival> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
     Page<Festival> findByNameContaining(String keyword, Pageable pageable);
 
     // 1순위: 개최 중 (시작일 <= 현재 <= 종료일) 중 시작일 최신순
