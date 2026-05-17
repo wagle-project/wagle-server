@@ -73,7 +73,7 @@ public class FestivalService {
         //slice도 고려(pageResponseDTO 변경 해야 함, 프론트와 백과 의논) -> 데이터가 많을 시 유리
 
         //keyword가 null일 경우 어떻게 하는가?(백, 프론트와 의논)
-        if(keyword == null || keyword.isEmpty()) {
+        if(keyword == null || keyword.trim().isEmpty()) {
             throw new GeneralException(GeneralErrorCode.KEYWORD_BAD_REQUEST);
         }
 
