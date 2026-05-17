@@ -80,8 +80,8 @@ public class FestivalService {
         //페이징 정보를 담기 사용(page 사용을 위해 필수)
         Pageable pageable = PageRequest.of(page, size);
 
-        //데이터를 page 형식으로 찾음, keyword가 축제 이름에 들어가는 걸 찾음
-        Page<Festival> festivalPage = festivalRepository.findByNameContaining(keyword, pageable);
+        //데이터를 page 형식으로 찾음, keyword가 축제 이름과 장소에 들어가는 걸 찾음
+        Page<Festival> festivalPage = festivalRepository.searchByKeyword(keyword, pageable);
 
         //데이터가 없을 시 exception을 발생 시킴
         if (festivalPage.isEmpty()) {
