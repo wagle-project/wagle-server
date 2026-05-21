@@ -1,22 +1,30 @@
 package com.waglewagle.server.domain.festival.controller;
 
 import com.waglewagle.server.domain.festival.dto.FestivalDTO;
+import com.waglewagle.server.domain.festival.service.FestivalService;
 import com.waglewagle.server.global.apiPayload.ApiResponse;
 import com.waglewagle.server.global.apiPayload.code.GeneralSuccessCode;
 import com.waglewagle.server.global.apiPayload.dto.ListResponseDTO;
 import com.waglewagle.server.global.apiPayload.dto.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/festivals")
 public class FestivalController implements FestivalControllerDocs {
+
+    private final FestivalService festivalService;
+
     @GetMapping("/recommendations")
     @Override
     public ApiResponse<ListResponseDTO<FestivalDTO.FestivalSummary>> getRecommendedFestivals() {
-        return ApiResponse.onListSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onListSuccess(GeneralSuccessCode.OK,
+                festivalService.getRecommendedFestivals());
     }
 
     @GetMapping("")
@@ -25,13 +33,15 @@ public class FestivalController implements FestivalControllerDocs {
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return ApiResponse.onPageSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onPageSuccess(GeneralSuccessCode.OK,
+                festivalService.getFestivals(keyword, page, size));
     }
 
     @GetMapping("/{festivalId}")
     @Override
     public ApiResponse<FestivalDTO.FestivalDetail> getFestivalDetail(
             @PathVariable Long festivalId) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK,
+                festivalService.getFestivalDetail(festivalId));
     }
 }

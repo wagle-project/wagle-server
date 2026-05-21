@@ -25,31 +25,30 @@ public class Festival {
     @Column(length = 500)
     private String description;
 
-    @Column(name = "poster_url")
-    private String posterUrl;
+    @Column(name = "poster_image_url")
+    private String posterImageUrl;
 
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_at", nullable = false, columnDefinition = "DATETIME")
     private LocalDateTime startDate;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_at", nullable = false, columnDefinition = "DATETIME")
     private LocalDateTime endDate;
 
     @Column(name = "place_name", nullable = false)
-    private String placeName; // 축제 대표 장소명
+    private String placeName;
 
     @Column(name = "address", nullable = false)
-    private String address;   // 상세 주소
+    private String address;
 
-    // --- 축제 허용 범위 (Geographical Bounds) ---
-    @Column(name = "min_lat")
-    private Double minLat;
+    @Column(name = "south_west_lat")
+    private Double southWestLat;
 
-    @Column(name = "max_lat")
-    private Double maxLat;
+    @Column(name = "south_west_lon")
+    private Double southWestLon;
 
-    @Column(name = "min_lon")
-    private Double minLon;
+    @Column(name = "north_east_lat")
+    private Double northEastLat;
 
-    @Column(name = "max_lon")
-    private Double maxLon;
+    @Column(name = "north_east_lon")
+    private Double northEastLon;
 }

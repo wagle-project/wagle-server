@@ -12,7 +12,6 @@ public class CongestionDTO {
 
             @Schema(description = "해당 지도 내 총 방문자 수", example = "540")
             int totalCount,
-
             @Schema(description = "H3 육각형 구역별 혼잡도 목록")
             List<ZoneInfo> zones
     ) {}
@@ -25,7 +24,7 @@ public class CongestionDTO {
             @Schema(description = "구역 내 인원 수 (디버깅/상세용)", example = "15")
             int count,
 
-            @Schema(description = "혼잡도 레벨 (0:쾌적, 1:보통, 2:혼잡, 3:매우혼잡)", example = "2")
+            @Schema(description = "혼잡도 레벨 (0:쾌적, 1:보통, 2:혼잡, 3:매우혼잡)", example = "1")
             int level
     ) {}
 }
