@@ -50,3 +50,7 @@ CLAUDE.md
 *.pem
 *.local.bak
 n8n-github-ai-workflow.json
+
+### Prometheus & Grafana Local Data ###
+infra/grafana_data/
+
