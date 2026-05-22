@@ -54,14 +54,15 @@ public class SecurityConfig {
                         // 에러 페이지로 포워딩되는 요청은 무조건 허가
                         .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ERROR).permitAll()
 
-                        // 스웨거 및 health의 경우 인증 불필요
+                        // 스웨거 및 health, actuator의 경우 인증 불필요
                         .requestMatchers("/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
                                 "/v3/api-docs",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/health").permitAll()
+                                "/health",
+                                "/actuator/**").permitAll()
 
                         // 나머지는 다 인증 불필요 (인증이 필요한 메소드 위 @PreAuthorize 붙일 것)
                         .anyRequest().permitAll()
@@ -107,8 +108,7 @@ public class SecurityConfig {
                         "/v3/api-docs/**",
                         "/v3/api-docs",
                         "/swagger-resources/**",
-                        "/webjars/**",
-                        "/actuator/**"
+                        "/webjars/**"
                 );
     }
 }

@@ -37,8 +37,8 @@ management:
         include: health, prometheus
   endpoint:
     health:
-      show-details: always
-      show-components: always
+      show-details: when-authorized
+      show-components: when-authorized
       probes:
         enabled: true
 

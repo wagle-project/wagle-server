@@ -28,7 +28,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
-            log.info("Authorization Header: {}", authorizationHeader);
+            String maskedHeader = authorizationHeader.length() > 15 ? 
+                    authorizationHeader.substring(0, 15) + "..." + authorizationHeader.substring(authorizationHeader.length() - 4) : 
+                    "Bearer ***";
+            log.info("Authorization Header: {}", maskedHeader);
 
             // 토큰 유효성 검증
             if (jwtUtil.isValid(token)) {
