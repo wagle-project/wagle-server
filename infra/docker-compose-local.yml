@@ -23,3 +23,29 @@ services:
     restart: always
     ports:
       - "16379:6379"
+
+  # 3. Prometheus (메트릭 수집 엔진)
+  wagle-prometheus:
+    image: prom/prometheus:latest
+    container_name: wagle-prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # 컨테이너 내부에서 로컬 호스트(Host) PC에 안전하게 접근하기 위한 설정
+
+  # 4. Grafana (시각화 대시보드)
+  wagle-grafana:
+    image: grafana/grafana:latest
+    container_name: wagle-grafana
+    restart: always
+    ports:
+      - "3001:3000" # Mac OS 12+ 이상에서 3000 포트가 간혹 충돌날 수 있어 로컬 포트는 3001로 맵핑합니다.
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin # 그라파나 초기 어드민 비밀번호
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+    depends_on:
+      - wagle-prometheus
