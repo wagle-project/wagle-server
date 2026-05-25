@@ -43,9 +43,11 @@ services:
     restart: always
     ports:
       - "3001:3000" # Mac OS 12+ 이상에서 3000 포트가 간혹 충돌날 수 있어 로컬 포트는 3001로 맵핑합니다.
+    # Grafana Admin credentials must be supplied via an external environment variable, .env file, CI secret, or a secret manager.
+    # Do not hardcode or commit plaintext credentials here.
     environment:
-      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin} # 환경변수 분리 및 기본값 설정으로 보안성 향상
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
     volumes:
       - ./grafana_data:/var/lib/grafana
     depends_on:
