@@ -29,3 +29,16 @@ jwt:
 
 cors:
   allowed-origins: http://localhost:3000,https://wagle-client.vercel.app,http://172.30.1.73:3000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+      show-components: when-authorized
+      probes:
+        enabled: true
+

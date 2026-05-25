@@ -111,7 +111,7 @@ class FestivalServiceTest {
         Festival festival = createFestival(1L, "김천김밥축제", now.plusDays(5), now.plusDays(7));
         Page<Festival> page = new PageImpl<>(List.of(festival));
 
-        when(festivalRepository.findByNameContaining(eq("김밥"), any(Pageable.class)))
+        when(festivalRepository.searchByKeyword(eq("김밥"), any(Pageable.class)))
                 .thenReturn(page);
 
         // when
