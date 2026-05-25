@@ -10,6 +10,9 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari: # DB 확장에 따른 커넥션 풀 확장
+      maximum-pool-size: 30
+      connection-timeout: 30000
   jpa:
     hibernate:
       ddl-auto: none
