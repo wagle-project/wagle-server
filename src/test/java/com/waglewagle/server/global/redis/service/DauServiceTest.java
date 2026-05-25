@@ -3,7 +3,6 @@ package com.waglewagle.server.global.redis.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.HyperLogLogOperations;
@@ -12,6 +11,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,16 +28,17 @@ class DauServiceTest {
     @Mock
     private HyperLogLogOperations<String, String> hyperLogLogOperations;
 
-    @InjectMocks
     private DauService dauService;
 
     private String todayKey;
     private String hourlyKey;
+    private static final ZoneId TEST_ZONE = ZoneId.of("Asia/Seoul");
 
     @BeforeEach
     void setUp() {
-        todayKey = "dau:" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        hourlyKey = "dau:" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd:HH"));
+        dauService = new DauService(redisTemplate, "Asia/Seoul");
+        todayKey = "dau:" + LocalDate.now(TEST_ZONE).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        hourlyKey = "dau:" + LocalDateTime.now(TEST_ZONE).format(DateTimeFormatter.ofPattern("yyyy-MM-dd:HH"));
     }
 
     @Test

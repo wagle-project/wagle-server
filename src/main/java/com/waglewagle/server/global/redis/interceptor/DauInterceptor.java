@@ -4,6 +4,7 @@ import com.waglewagle.server.global.redis.annotation.TrackDau;
 import com.waglewagle.server.global.redis.service.DauService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,9 +26,12 @@ public class DauInterceptor implements HandlerInterceptor {
 
             if (trackDau != null) {
                 String identifier = extractIdentifier(request, trackDau.type());
-                log.info("Tracking DAU - URI: {}, Method: {}, Identifier: ({}) {}", 
-                        request.getRequestURI(), request.getMethod(), trackDau.type(), identifier);
-                dauService.addVisitor(identifier);
+                if (identifier != null && !identifier.isBlank()) {
+                    String masked = maskIdentifier(identifier, trackDau.type());
+                    log.info("Tracking DAU - URI: {}, Method: {}, Identifier: ({}) {}", 
+                            request.getRequestURI(), request.getMethod(), trackDau.type(), masked);
+                    dauService.addVisitor(identifier);
+                }
             }
         }
         return true;
@@ -35,7 +39,8 @@ public class DauInterceptor implements HandlerInterceptor {
 
     private String extractIdentifier(HttpServletRequest request, TrackDau.IdentifierType type) {
         if (type == TrackDau.IdentifierType.SESSION_ID) {
-            return request.getSession(true).getId();
+            HttpSession session = request.getSession(false);
+            return session != null ? session.getId() : null;
         }
 
         // IP 추출 로직 (프록시 환경 완벽 대처)
@@ -61,5 +66,30 @@ public class DauInterceptor implements HandlerInterceptor {
             ip = ip.split(",")[0].trim();
         }
         return ip;
+    }
+
+    /**
+     * 개인정보 보호(PII)를 위해 식별자를 마스킹 처리합니다.
+     */
+    private String maskIdentifier(String identifier, TrackDau.IdentifierType type) {
+        if (identifier == null || identifier.isBlank()) {
+            return "";
+        }
+        if (type == TrackDau.IdentifierType.IP) {
+            String[] parts = identifier.split("\\.");
+            if (parts.length == 4) {
+                return parts[0] + "." + parts[1] + ".***.***";
+            }
+            // IPv6 마스킹
+            if (identifier.contains(":")) {
+                return identifier.substring(0, Math.min(identifier.length(), 9)) + "::****";
+            }
+        } else {
+            // Session ID 마스킹 (앞 8자리만 유지)
+            if (identifier.length() > 8) {
+                return identifier.substring(0, 8) + "******";
+            }
+        }
+        return "****";
     }
 }
