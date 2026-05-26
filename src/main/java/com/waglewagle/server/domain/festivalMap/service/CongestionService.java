@@ -44,8 +44,8 @@ public class CongestionService {
 
     // 혼잡도 4단계 (셀당 절대 인원 기준)
     private int calculateLevel(int count) {
-        if (count >= 3) return 4;
-        if (count >= 2) return 3;
-        return 2;
+        if (count >= 3) return 3;
+        if (count >= 2) return 2;
+        return 1;
     }
 }
