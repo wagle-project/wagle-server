@@ -49,13 +49,13 @@ jobs:
           password: ${{ secrets.NCP_PASSWORD }}
           script: mkdir -p /root/deploy
 
-      - name: Copy docker-compose.yml to NCP
+      - name: Copy deployment and config files to NCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ vars.NCP_HOST }}
           username: ${{ secrets.NCP_USERNAME || 'root' }}
           password: ${{ secrets.NCP_PASSWORD }}
-          source: "infra/docker-compose.yml"
+          source: "infra/docker-compose.yml,infra/docker-compose-local.yml,infra/prometheus/prometheus.yml"
           target: /root/deploy
 
       - name: Deploy to NCP via SSH
