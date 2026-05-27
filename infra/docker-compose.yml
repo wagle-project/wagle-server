@@ -67,19 +67,20 @@ services:
 
   # 5. Prometheus (메트릭 수집 엔진)
   wagle-prometheus:
-    image: prom/prometheus:v2.55.1
+    image: prom/prometheus@sha256:899b369f202e252dfef80f3999e981a3d7fc7445228aa6098177acaf50349a76
     container_name: wagle-prometheus
     restart: always
     ports:
       - "9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
     networks:
       - wagle-network
 
   # 6. Grafana (시각화 대시보드)
   wagle-grafana:
-    image: grafana/grafana:11.5.2
+    image: grafana/grafana@sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7
     container_name: wagle-grafana
     restart: always
     ports:
@@ -97,3 +98,6 @@ services:
 networks:
   wagle-network:
     driver: bridge
+
+volumes:
+  prometheus-data:
