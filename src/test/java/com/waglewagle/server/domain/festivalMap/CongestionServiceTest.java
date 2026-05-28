@@ -57,17 +57,17 @@ class CongestionServiceTest {
                 .willReturn(Optional.of(festivalMap));
         given(locationRedisRepository.getCellCounts(7L))
                 .willReturn(Map.of(
-                        "cell_A", 3,   // level 0 (0~5명)
-                        "cell_B", 10,  // level 1 (6~15명)
-                        "cell_C", 20,  // level 2 (16~30명)
-                        "cell_D", 35   // level 3 (31명 이상)
+                        "cell_A", 1,   // level 1 (< 2명)
+                        "cell_B", 2,   // level 2 (2명)
+                        "cell_C", 3,   // level 3 (>= 3명)
+                        "cell_D", 5    // level 3 (>= 3명)
                 ));
 
         // when
         CongestionDTO.CongestionResponse response = congestionService.getCongestion(7L);
 
         // then
-        assertThat(response.totalCount()).isEqualTo(68);
+        assertThat(response.totalCount()).isEqualTo(11);
         assertThat(response.zones()).hasSize(4);
 
         Map<String, Integer> levelMap = response.zones().stream()
@@ -76,9 +76,9 @@ class CongestionServiceTest {
                         CongestionDTO.ZoneInfo::level
                 ));
 
-        assertThat(levelMap.get("cell_A")).isEqualTo(0);
-        assertThat(levelMap.get("cell_B")).isEqualTo(1);
-        assertThat(levelMap.get("cell_C")).isEqualTo(2);
+        assertThat(levelMap.get("cell_A")).isEqualTo(1);
+        assertThat(levelMap.get("cell_B")).isEqualTo(2);
+        assertThat(levelMap.get("cell_C")).isEqualTo(3);
         assertThat(levelMap.get("cell_D")).isEqualTo(3);
     }
 
@@ -112,19 +112,18 @@ class CongestionServiceTest {
     }
 
     @Test
-    @DisplayName("혼잡도 레벨 경계값 확인 - 5명/6명/15명/16명/30명/31명")
+    @DisplayName("혼잡도 레벨 경계값 확인 - 0명/1명/2명/3명")
     void getCongestion_levelBoundary() {
         // given
         given(festivalMapRepository.findById(7L))
                 .willReturn(Optional.of(festivalMap));
         given(locationRedisRepository.getCellCounts(7L))
                 .willReturn(Map.of(
-                        "cell_1", 5,   // level 1 최대
-                        "cell_2", 6,   // level 2 최소
-                        "cell_3", 15,  // level 2 최대
-                        "cell_4", 16,  // level 3 최소
-                        "cell_5", 30,  // level 3 최대
-                        "cell_6", 31   // level 4 최소
+                        "cell_1", 0,   // level 1
+                        "cell_2", 1,   // level 1
+                        "cell_3", 2,   // level 2
+                        "cell_4", 3,   // level 3
+                        "cell_5", 10   // level 3
                 ));
 
         // when
@@ -137,11 +136,10 @@ class CongestionServiceTest {
                         CongestionDTO.ZoneInfo::level
                 ));
 
-        assertThat(levelMap.get("cell_1")).isEqualTo(0);
+        assertThat(levelMap.get("cell_1")).isEqualTo(1);
         assertThat(levelMap.get("cell_2")).isEqualTo(1);
-        assertThat(levelMap.get("cell_3")).isEqualTo(1);
-        assertThat(levelMap.get("cell_4")).isEqualTo(2);
-        assertThat(levelMap.get("cell_5")).isEqualTo(2);
-        assertThat(levelMap.get("cell_6")).isEqualTo(3);
+        assertThat(levelMap.get("cell_3")).isEqualTo(2);
+        assertThat(levelMap.get("cell_4")).isEqualTo(3);
+        assertThat(levelMap.get("cell_5")).isEqualTo(3);
     }
 }

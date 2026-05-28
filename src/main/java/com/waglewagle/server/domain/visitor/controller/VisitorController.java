@@ -6,6 +6,7 @@ import com.waglewagle.server.domain.visitor.service.VisitorLocationService;
 import com.waglewagle.server.domain.visitor.service.VisitorService;
 import com.waglewagle.server.global.apiPayload.ApiResponse;
 import com.waglewagle.server.global.apiPayload.code.GeneralSuccessCode;
+import com.waglewagle.server.global.redis.annotation.TrackDau;
 import com.waglewagle.server.global.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +23,7 @@ public class VisitorController implements VisitorControllerDocs {
     private final VisitorLocationService visitorLocationService;
 
     @PostMapping("/visitors")
+    @TrackDau
     @Override
     public ApiResponse<VisitorDTO.VisitorResponse> registerVisitor(
             @RequestBody VisitorDTO.VisitorRequest request) {
