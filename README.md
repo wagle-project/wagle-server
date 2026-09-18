@@ -54,9 +54,7 @@ com.waglewagle.server
 ```
 
 ## 📄 System architecture diagram
-<p align="center">
-  <img width="80%" alt="image" src="https://github.com/user-attachments/assets/64f3a8d0-00e0-4a31-9e6e-934b957c405f">
-</p>
+![인프라 아키텍처 다이어그램](./docs/infra/infra-architecture.png)
 
 ## 🔧 Getting Started (Local)
 
